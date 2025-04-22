@@ -13,6 +13,7 @@ namespace Servidor
     class Program
     {
         static TcpListener? Servidor;
+        private static int uniqueId = 0;
 
 
         static void Main(string[] args)
@@ -36,7 +37,9 @@ namespace Servidor
             TcpListener Servidor = (TcpListener)ar.AsyncState!;
             TcpClient Cliente = Servidor.EndAcceptTcpClient(ar);
 
-            Console.WriteLine($"Servidor: Gestionando nuevo vehículo..");
+            int clientId = Interlocked.Increment(ref uniqueId);
+
+            Console.WriteLine($"Servidor: Gestionando nuevo vehículo.. {uniqueId}");
 
             Servidor.BeginAcceptTcpClient(EndAccept, Servidor);
         }
