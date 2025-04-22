@@ -23,14 +23,22 @@ namespace Servidor
             Servidor.Start();
             Console.WriteLine("Servidor: Servidor iniciado");
 
-            TcpClient Cliente = Servidor.AcceptTcpClient();
+            Servidor.BeginAcceptTcpClient(EndAccept, Servidor);
 
-            if (Cliente.Connected)
-            {
-                Console.WriteLine("Servidor: Cliente conectado");
-            }
+            Console.WriteLine("Servidor: Esperando clientes sin bloqueo");
 
             Console.ReadLine();
+        }
+
+
+        static void EndAccept(IAsyncResult ar)
+        {
+            TcpListener Servidor = (TcpListener)ar.AsyncState!;
+            TcpClient Cliente = Servidor.EndAcceptTcpClient(ar);
+
+            Console.WriteLine($"Servidor: Gestionando nuevo vehículo..");
+
+            Servidor.BeginAcceptTcpClient(EndAccept, Servidor);
         }
     }
 }
