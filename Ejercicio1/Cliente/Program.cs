@@ -17,14 +17,15 @@ namespace Client
         static void Main(string[] args)
         {
             Cliente = new TcpClient();
+            Cliente.Connect("127.0.0.1", 10001);
 
             try
             {
-                Cliente.Connect("127.0.0.1", 10001);
-
                 if (Cliente.Connected)
                 {
                     Console.WriteLine("Cliente: Cliente conectado");
+
+                    NetworkStream FlujoDatos = Cliente.GetStream();
                 }
             }
             catch (Exception e)

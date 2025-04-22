@@ -36,8 +36,18 @@ namespace NetworkStreamNS
 
         }*/
 
+
+        private class State
+        {
+            public NetworkStream FlujoDatos {get;set;}
+            public byte[] BufferLectura = new byte[1024];
+
+            public byte[] BufferEscritura;
+        }
+
+
         //Método que permite leer un mensaje de tipo texto (string) de un NetworkStream
-        public static string LeerMensajeNetworkStream (NetworkStream NS)
+        public static string LeerMensajeNetworkStream(NetworkStream NS)
         {
             byte[] bufferLectura = new byte[1024];
 
