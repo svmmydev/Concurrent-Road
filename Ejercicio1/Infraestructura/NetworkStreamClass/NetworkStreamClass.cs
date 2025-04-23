@@ -39,40 +39,54 @@ namespace NetworkStreamNS
 
         private class State
         {
-            public NetworkStream FlujoDatos {get;set;}
+            public NetworkStream NetwStream {get;set;}
             public byte[] BufferLectura = new byte[1024];
-
-            public byte[] BufferEscritura;
+            public MemoryStream MemStream = new MemoryStream();
         }
 
 
         //Método que permite leer un mensaje de tipo texto (string) de un NetworkStream
-        public static string LeerMensajeNetworkStream(NetworkStream NS)
+        public static void LeerMensajeNetworkStream(NetworkStream NS)
         {
-            byte[] bufferLectura = new byte[1024];
+            State state = new State();
+            state.NetwStream = NS;
 
-            //Lectura del mensaje
-            int bytesLeidos = 0;
-            var tmpStream = new MemoryStream();
-            byte[] bytesTotales; 
-            do
-            {
-                int bytesLectura = NS.Read(bufferLectura,0,bufferLectura.Length);
-                tmpStream.Write(bufferLectura, 0, bytesLectura);
-                bytesLeidos = bytesLeidos + bytesLectura;
-            }while (NS.DataAvailable);
-
-            bytesTotales = tmpStream.ToArray();            
-
-            return Encoding.Unicode.GetString(bytesTotales, 0, bytesLeidos);                 
+            NS.BeginRead(state.BufferLectura, 0, state.BufferLectura.Length, EndRead, state);
         }
 
-        //Método que permite escribir un mensaje de tipo texto (string) al NetworkStream
-        public static void  EscribirMensajeNetworkStream(NetworkStream NS, string Str)
-        {            
-            byte[] MensajeBytes = Encoding.Unicode.GetBytes(Str);
-            NS.Write(MensajeBytes,0,MensajeBytes.Length);                        
-        }                          
 
+        private static void EndRead(IAsyncResult ar)
+        {
+            State state = (State)ar.AsyncState;
+            int bytesLeidos = state.NetwStream.EndRead(ar);
+
+            if (bytesLeidos <= 0)
+            {
+                state.MemStream.Dispose();
+                return;
+            }
+
+            state.MemStream.Write(state.BufferLectura, 0, bytesLeidos);
+
+            if (state.NetwStream.DataAvailable)
+            {
+                state.NetwStream.BeginRead(state.BufferLectura, 0, state.BufferLectura.Length, EndRead, state);
+            }
+            else
+            {
+                string mensaje = Encoding.UTF8.GetString(state.MemStream.ToArray(), 0, (int)state.MemStream.Length);
+                state.MemStream.SetLength(0);
+
+                state.NetwStream.BeginRead(state.BufferLectura, 0, state.BufferLectura.Length, EndRead, state);
+            }
+        }
+
+
+        //Método que permite escribir un mensaje de tipo texto (string) al NetworkStream
+        public static void EscribirMensajeNetworkStream(NetworkStream NS, string Str)
+        {            
+            byte[] MensajeBytes = Encoding.UTF8.GetBytes(Str);
+            NS.Write(MensajeBytes,0,MensajeBytes.Length);
+        }
     }
 }
