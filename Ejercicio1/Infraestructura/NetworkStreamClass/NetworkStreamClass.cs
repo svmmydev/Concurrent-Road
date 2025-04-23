@@ -86,7 +86,14 @@ namespace NetworkStreamNS
         public static void EscribirMensajeNetworkStream(NetworkStream NS, string Str)
         {            
             byte[] MensajeBytes = Encoding.UTF8.GetBytes(Str);
-            NS.Write(MensajeBytes,0,MensajeBytes.Length);
+            NS.BeginWrite(MensajeBytes, 0, MensajeBytes.Length, EndWrite, NS);
+        }
+
+
+        private static void EndWrite(IAsyncResult ar)
+        {
+            NetworkStream NS = (NetworkStream)ar.AsyncState;
+            NS.EndWrite(ar);
         }
     }
 }
