@@ -24,11 +24,7 @@ namespace Servidor
             Servidor.Start();
             Console.WriteLine("Servidor: Servidor iniciado");
 
-            Servidor.BeginAcceptTcpClient(EndAccept, Servidor);
-
-            Console.WriteLine("Servidor: Esperando clientes..");
-
-            Console.ReadLine();
+            // TO:DO Aceptar conexión clientes
         }
 
 
@@ -37,34 +33,11 @@ namespace Servidor
             TcpListener Servidor = (TcpListener)ar.AsyncState!;
             TcpClient Cliente = Servidor.EndAcceptTcpClient(ar);
 
-            Servidor.BeginAcceptTcpClient(EndAccept, Servidor);
-
+            int clienteId = Interlocked.Increment(ref IdUnico);
             NetworkStream FlujoDatos = Cliente.GetStream();
 
-            int clienteId = Interlocked.Increment(ref IdUnico);
+            // TO:DO Conexión y Handshake
 
-            NetworkStreamClass.LeerMensajeNetworkStream(FlujoDatos, inicio => {
-                if (inicio != "INICIO") {
-                    Console.WriteLine("Error al establecer la conexión: Inicio handshake fallido");
-                    Cliente.Close();
-                    return;
-                }
-
-                NetworkStreamClass.EscribirMensajeNetworkStream(FlujoDatos, clienteId.ToString(), () => {
-
-                    NetworkStreamClass.LeerMensajeNetworkStream(FlujoDatos, confirm => {
-                        if (confirm != clienteId.ToString())
-                        {
-                            Console.WriteLine("Error al establecer la conexión: ID incorrecto");
-                            Cliente.Close();
-                            return;
-                        }
-                        
-                        Console.WriteLine($"Handshake OK con vehículo {clienteId}");
-                    });
-                });
-            });
-            
             Console.WriteLine($"\nServidor: Gestionando nuevo vehículo.. {IdUnico}");
         }
     }

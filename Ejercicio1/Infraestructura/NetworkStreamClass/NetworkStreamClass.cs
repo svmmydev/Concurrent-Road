@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 using VehiculoClass;
 using CarreteraClass;
+using System.Threading.Tasks;
 
 
 namespace NetworkStreamNS
@@ -12,7 +13,7 @@ namespace NetworkStreamNS
     {
         
         //Método para escribir en un NetworkStream los datos de tipo Carretera
-        public static void  EscribirDatosCarreteraNS(NetworkStream NS, Carretera C)
+        public static void EscribirDatosCarreteraNS(NetworkStream NS, Carretera C)
         {            
                             
         }
@@ -25,7 +26,7 @@ namespace NetworkStreamNS
         }*/
 
         //Método para enviar datos de tipo Vehiculo en un NetworkStream
-        public static void  EscribirDatosVehiculoNS(NetworkStream NS, Vehiculo V)
+        public static void EscribirDatosVehiculoNS(NetworkStream NS, Vehiculo V)
         {            
                               
         }
@@ -37,98 +38,32 @@ namespace NetworkStreamNS
         }*/
 
 
-        private class State
-        {
-            public NetworkStream NetwStream {get;set;}
-            public byte[] BufferLectura = new byte[1024];
-            public MemoryStream MemStream = new MemoryStream();
-            public Action<string> OnMessage;
-        }
-
-
         //Método que permite leer un mensaje de tipo texto (string) de un NetworkStream
-        public static void LeerMensajeNetworkStream(NetworkStream NS, Action<string> onMessage)
+        public static async Task<string> LeerMensajeAsync(this NetworkStream netwS)
         {
-            State state = new State();
-            state.NetwStream = NS;
-            state.OnMessage = onMessage;
-
-            NS.BeginRead(state.BufferLectura, 0, state.BufferLectura.Length, EndRead, state);
-        }
-
-
-        private static void EndRead(IAsyncResult ar)
-        {
-            State state = (State)ar.AsyncState;
+            using var memS = new MemoryStream();
+            byte[] buffer = new byte[1024];
             int bytesLeidos;
 
-            try
+            do
             {
-                bytesLeidos = state.NetwStream.EndRead(ar);
-            }
-            catch (ObjectDisposedException)
-            {
-                return;
-            }
-            catch (IOException)
-            {
-                LimpiarConexion(state);
-                return;
-            }
+                bytesLeidos = await netwS.ReadAsync(buffer.AsMemory());
 
-            if (bytesLeidos == 0)
-            {
-                LimpiarConexion(state);
-                return;
+                if (bytesLeidos == 0) throw new IOException("Conexión cerrada insesperadamente");
+
+                memS.Write(buffer, 0, bytesLeidos);
             }
+            while (netwS.DataAvailable);
 
-            state.MemStream.Write(state.BufferLectura, 0, bytesLeidos);
-
-            if (state.NetwStream.DataAvailable)
-            {
-                state.NetwStream.BeginRead(state.BufferLectura, 0, state.BufferLectura.Length, EndRead, state);
-            }
-            else
-            {
-                string mensaje = Encoding.UTF8.GetString(state.MemStream.ToArray(), 0, (int)state.MemStream.Length);
-                state.MemStream.SetLength(0);
-
-                state.OnMessage(mensaje);
-
-                state.NetwStream.BeginRead(state.BufferLectura, 0, state.BufferLectura.Length, EndRead, state);
-            }
+            return Encoding.UTF8.GetString(memS.ToArray());
         }
 
 
         //Método que permite escribir un mensaje de tipo texto (string) al NetworkStream
-        public static void EscribirMensajeNetworkStream(NetworkStream NS, string Str, Action onWritten)
-        {            
-            byte[] MensajeBytes = Encoding.UTF8.GetBytes(Str);
-            NS.BeginWrite(MensajeBytes, 0, MensajeBytes.Length, EndWrite, (NS, onWritten));
-        }
-
-
-        private static void EndWrite(IAsyncResult ar)
+        public static async Task EscribirMensajeAsync(this NetworkStream netwS, string Str)
         {
-            NetworkStream NS;
-            Action onWritten;
-            try
-            {
-                (NS, onWritten) = ((NetworkStream,Action))ar.AsyncState;
-                NS.EndWrite(ar);
-            }
-            catch
-            {
-                return;
-            }
-            onWritten();
-        }
-
-
-        static void LimpiarConexion(State state)
-        {
-            try { state.NetwStream.Close(); } catch { }
-            try { state.MemStream.Dispose(); } catch { }
+            byte[] buffer = Encoding.UTF8.GetBytes(Str);
+            await netwS.WriteAsync(buffer.AsMemory());
         }
     }
 }

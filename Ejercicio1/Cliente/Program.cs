@@ -21,27 +21,11 @@ namespace Client
 
             try
             {
-                if (Cliente.Connected)
-                {
-                    Console.WriteLine("Cliente: Cliente conectado");
-
-                    NetworkStream FlujoDatos = Cliente.GetStream();
-
-                    NetworkStreamClass.EscribirMensajeNetworkStream(FlujoDatos, "INICIO", () => {
-
-                        NetworkStreamClass.LeerMensajeNetworkStream(FlujoDatos, clienteId => {
-                            Console.WriteLine($"ID asignado: {clienteId}");
-
-                            NetworkStreamClass.EscribirMensajeNetworkStream(FlujoDatos, clienteId, () => {
-                                Console.WriteLine("Handshake completado!");
-                            });
-                        });
-                    });
-                }
+                // TO:DO Conexión y Handshake
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Error al conectar con el servidor:");
+                Console.WriteLine($"Error al conectar con el servidor: {e}");
             }
 
             Console.ReadLine();
