@@ -7,6 +7,7 @@ using System.Threading;
 using NetworkStreamNS;
 using CarreteraClass;
 using VehiculoClass;
+using System.Threading.Tasks;
 
 namespace Client
 {
@@ -14,14 +15,16 @@ namespace Client
     {
         static TcpClient? Cliente;
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Cliente = new TcpClient();
-            Cliente.Connect("127.0.0.1", 10001);
-
             try
             {
-                // TO:DO Conexión y Handshake
+                using TcpClient Cliente = new TcpClient();
+                await Cliente.ConnectAsync("127.0.0.1", 10001);
+                
+                Console.WriteLine("Cliente: Conectado al servidor");
+
+                // TODO Coger el stream e implementar el handshake
             }
             catch (Exception e)
             {

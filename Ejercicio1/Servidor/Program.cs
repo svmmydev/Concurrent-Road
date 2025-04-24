@@ -7,6 +7,7 @@ using System.Threading;
 using NetworkStreamNS;
 using CarreteraClass;
 using VehiculoClass;
+using System.Threading.Tasks;
 
 namespace Servidor
 {
@@ -16,7 +17,7 @@ namespace Servidor
         private static int IdUnico = 0;
 
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {            
             byte[] bufferLectura = new byte[1024];
 
@@ -24,21 +25,20 @@ namespace Servidor
             Servidor.Start();
             Console.WriteLine("Servidor: Servidor iniciado");
 
-            // TO:DO Aceptar conexión clientes
+            while (true)
+            {
+                TcpClient Cliente = await Servidor.AcceptTcpClientAsync();
+                _ = GestionarClienteAsync(Cliente);
+            }
         }
 
 
-        static void EndAccept(IAsyncResult ar)
+        private static async Task GestionarClienteAsync(TcpClient cliente)
         {
-            TcpListener Servidor = (TcpListener)ar.AsyncState!;
-            TcpClient Cliente = Servidor.EndAcceptTcpClient(ar);
-
             int clienteId = Interlocked.Increment(ref IdUnico);
-            NetworkStream FlujoDatos = Cliente.GetStream();
+            Console.WriteLine($"Servidor: Gestionando nuevo vehículo #{clienteId}");
 
-            // TO:DO Conexión y Handshake
-
-            Console.WriteLine($"\nServidor: Gestionando nuevo vehículo.. {IdUnico}");
+            // TODO Coger el stream e implementar el handshake
         }
     }
 }
