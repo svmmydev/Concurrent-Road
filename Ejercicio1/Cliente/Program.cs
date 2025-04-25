@@ -25,12 +25,21 @@ namespace Client
                 Console.WriteLine("Cliente: Conectado al servidor");
 
                 using NetworkStream netwS = Cliente.GetStream();
+
+                await netwS.EscribirMensajeAsync("INICIO");
+
+                string clienteId = await netwS.LeerMensajeAsync();
+                Console.WriteLine($"ID Asignado: {clienteId}");
+
+                await netwS.EscribirMensajeAsync(clienteId);
+                Console.WriteLine("Handshake completado!");
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Error al conectar con el servidor: {e}");
+                Console.WriteLine($"Error al conectar con el servidor: {e.Message}");
             }
 
+            Console.WriteLine("Presiona Enter para salir..");
             Console.ReadLine();
         }
     }
