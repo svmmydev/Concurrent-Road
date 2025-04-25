@@ -17,5 +17,10 @@ namespace Servidor
         {
             Clientes.TryRemove(clienteId, out _);
         }
+
+        public static void MostrarClientesConectados()
+        {
+            Console.WriteLine($"Vehículos conectados: {Clientes.Count}");
+        }
     }
 }
