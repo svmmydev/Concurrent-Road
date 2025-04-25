@@ -38,7 +38,7 @@ namespace Servidor
             int clienteId = Interlocked.Increment(ref IdUnico);
             Console.WriteLine($"Servidor: Gestionando nuevo vehículo #{clienteId}");
 
-            // TODO Coger el stream e implementar el handshake
+            using NetworkStream netwS = cliente.GetStream();
         }
     }
 }

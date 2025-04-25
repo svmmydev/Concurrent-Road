@@ -24,7 +24,7 @@ namespace Client
                 
                 Console.WriteLine("Cliente: Conectado al servidor");
 
-                // TODO Coger el stream e implementar el handshake
+                using NetworkStream netwS = Cliente.GetStream();
             }
             catch (Exception e)
             {
