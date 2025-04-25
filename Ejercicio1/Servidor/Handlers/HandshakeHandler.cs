@@ -36,6 +36,9 @@ namespace Servidor.Handlers
                     return;
                 }
 
+                Cliente clienteNuevo = new Cliente(clienteId, netwS);
+                ClienteManager.AñadirCliente(clienteNuevo);
+
                 Console.WriteLine($"Handshake OK con vehículo #{clienteId}");
             }
             catch (Exception e)
