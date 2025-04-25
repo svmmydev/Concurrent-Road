@@ -24,6 +24,7 @@ namespace Servidor
             Servidor = new TcpListener(IPAddress.Parse("127.0.0.1"), 10001);
             Servidor.Start();
             Console.WriteLine("Servidor: Servidor iniciado");
+            Console.WriteLine("Servidor: Esperando vehículos..");
 
             while (true)
             {
@@ -36,9 +37,36 @@ namespace Servidor
         private static async Task GestionarClienteAsync(TcpClient cliente)
         {
             int clienteId = Interlocked.Increment(ref IdUnico);
-            Console.WriteLine($"Servidor: Gestionando nuevo vehículo #{clienteId}");
+            Console.WriteLine($"\nServidor: Gestionando nuevo vehículo #{clienteId}");
 
-            using NetworkStream netwS = cliente.GetStream();
+            NetworkStream netwS = cliente.GetStream();
+
+            try
+            {
+                string inicio = await netwS.LeerMensajeAsync();
+                if (inicio != "INICIO")
+                {
+                    Console.WriteLine($"# Error: Handshake iniciado incorrecto: {inicio}");
+                    cliente.Close();
+                    return;
+                }
+
+                await netwS.EscribirMensajeAsync(clienteId.ToString());
+
+                string confirmacion = await netwS.LeerMensajeAsync();
+                if (confirmacion != clienteId.ToString())
+                {
+                    Console.WriteLine($"# Error: Confirmación de ID incorrecta: {confirmacion}");
+                    cliente.Close();
+                    return;
+                }
+
+                Console.WriteLine($"Handshake OK con vehículo #{clienteId}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"# Error: Conexión con el cliente {clienteId} fallida: {e.Message}");
+            }
         }
     }
 }

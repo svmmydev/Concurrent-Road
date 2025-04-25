@@ -24,7 +24,7 @@ namespace Client
                 
                 Console.WriteLine("Cliente: Conectado al servidor");
 
-                using NetworkStream netwS = Cliente.GetStream();
+                NetworkStream netwS = Cliente.GetStream();
 
                 await netwS.EscribirMensajeAsync("INICIO");
 
@@ -36,7 +36,7 @@ namespace Client
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Error al conectar con el servidor: {e.Message}");
+                Console.WriteLine($"# Error al conectar con el servidor: {e.Message}");
             }
 
             Console.WriteLine("Presiona Enter para salir..");
