@@ -18,6 +18,8 @@ namespace Cliente
                 NetworkStream netwS = Cliente.GetStream();
 
                 string id = await ClienteHandshake.InicioHandshakeCliente(netwS);
+
+                VehiculoManager.IniciarVehiculo(netwS, int.Parse(id));
             }
             catch (Exception e)
             {
