@@ -1,5 +1,6 @@
 ﻿
 using System.Net.Sockets;
+using NetworkStreamNS;
 using VehiculoClass;
 
 namespace Cliente
@@ -22,6 +23,16 @@ namespace Cliente
                 Vehiculo vehiculo = VehiculoManager.IniciarVehiculo(netwS, int.Parse(id));
                 
                 Console.WriteLine($"Vehículo iniciado con ID #{id} y velocidad {vehiculo.Velocidad}");
+
+                for (int i = 0; i <= 100; i++)
+                {
+                    Thread.Sleep(vehiculo.Velocidad);
+                    vehiculo.Pos += i;
+
+                    NetworkStreamClass.EscribirDatosVehiculoNS(netwS, vehiculo);
+                }
+
+                vehiculo.Acabado = true;
             }
             catch (Exception e)
             {
