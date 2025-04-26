@@ -4,65 +4,66 @@ using System.Text;
 using System.IO;
 using VehiculoClass;
 using CarreteraClass;
+using System.Threading.Tasks;
 
 
 namespace NetworkStreamNS
 {
-    public class NetworkStreamClass
+    public static class NetworkStreamClass
     {
         
-        //Método para escribir en un NetworkStream los datos de tipo Carretera
-        public static void  EscribirDatosCarreteraNS(NetworkStream NS, Carretera C)
+        // Método para escribir en un NetworkStream los datos de tipo Carretera
+        public static void EscribirDatosCarreteraNS(this NetworkStream netwS, Carretera C)
         {            
                             
         }
 
-        //Metódo para leer de un NetworkStream los datos que de un objeto Carretera
-        /*public static Carretera LeerDatosCarreteraNS (NetworkStream NS)
+        // Metódo para leer de un NetworkStream los datos que de un objeto Carretera
+        /*public static Carretera LeerDatosCarreteraNS (this NetworkStream netwS)
         {
             
 
         }*/
 
-        //Método para enviar datos de tipo Vehiculo en un NetworkStream
-        public static void  EscribirDatosVehiculoNS(NetworkStream NS, Vehiculo V)
+        // Método para enviar datos de tipo Vehiculo en un NetworkStream
+        public static void EscribirDatosVehiculoNS(this NetworkStream netwS, Vehiculo V)
         {            
                               
         }
 
-        //Metódo para leer de un NetworkStream los datos que de un objeto Vehiculo
-        /*public static Vehiculo LeerDatosVehiculoNS (NetworkStream NS)
+        // Metódo para leer de un NetworkStream los datos que de un objeto Vehiculo
+        /*public static Vehiculo LeerDatosVehiculoNS (this NetworkStream netwS)
         {
 
         }*/
 
-        //Método que permite leer un mensaje de tipo texto (string) de un NetworkStream
-        public static string LeerMensajeNetworkStream (NetworkStream NS)
-        {
-            byte[] bufferLectura = new byte[1024];
 
-            //Lectura del mensaje
-            int bytesLeidos = 0;
-            var tmpStream = new MemoryStream();
-            byte[] bytesTotales; 
+        // Método que permite leer un mensaje de tipo texto (string) de un NetworkStream
+        public static async Task<string> LeerMensajeAsync(this NetworkStream netwS)
+        {
+            using var memS = new MemoryStream();
+            byte[] buffer = new byte[1024];
+            int bytesLeidos;
+
             do
             {
-                int bytesLectura = NS.Read(bufferLectura,0,bufferLectura.Length);
-                tmpStream.Write(bufferLectura, 0, bytesLectura);
-                bytesLeidos = bytesLeidos + bytesLectura;
-            }while (NS.DataAvailable);
+                bytesLeidos = await netwS.ReadAsync(buffer.AsMemory());
 
-            bytesTotales = tmpStream.ToArray();            
+                if (bytesLeidos == 0) throw new IOException("Conexión cerrada insesperadamente");
 
-            return Encoding.Unicode.GetString(bytesTotales, 0, bytesLeidos);                 
+                memS.Write(buffer, 0, bytesLeidos);
+            }
+            while (netwS.DataAvailable);
+
+            return Encoding.UTF8.GetString(memS.ToArray());
         }
 
-        //Método que permite escribir un mensaje de tipo texto (string) al NetworkStream
-        public static void  EscribirMensajeNetworkStream(NetworkStream NS, string Str)
-        {            
-            byte[] MensajeBytes = Encoding.Unicode.GetBytes(Str);
-            NS.Write(MensajeBytes,0,MensajeBytes.Length);                        
-        }                          
 
+        // Método que permite escribir un mensaje de tipo texto (string) al NetworkStream
+        public static async Task EscribirMensajeAsync(this NetworkStream netwS, string Str)
+        {
+            byte[] buffer = Encoding.UTF8.GetBytes(Str);
+            await netwS.WriteAsync(buffer.AsMemory());
+        }
     }
 }
