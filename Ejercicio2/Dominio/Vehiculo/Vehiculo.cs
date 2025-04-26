@@ -12,6 +12,7 @@ public class Vehiculo
     public bool Acabado {get;set;}
     public bool Parado {get; set;}
     
+    
     public Vehiculo()
     {
         var randVelocidad = new Random();
@@ -20,6 +21,7 @@ public class Vehiculo
         this.Pos = 0;
         this.Acabado = false;
     }
+
 
     //Permite serializar Vehiculo a array de bytes mediant formato XML
     public byte[] VehiculoaBytes()
@@ -32,6 +34,7 @@ public class Vehiculo
        
         return MS.ToArray();
     }
+
 
     //Permite desserializar una cadena de bytes a un objeto de tipo Vehiculo
     public static Vehiculo BytesAVehiculo(byte[] bytesVehiculo)

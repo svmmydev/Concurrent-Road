@@ -3,27 +3,25 @@ using System.Net.Sockets;
 using System.Net;
 using Servidor.Handlers;
 
-namespace Servidor
+namespace Servidor;
+
+class Program
 {
-    class Program
+    static TcpListener? Servidor;
+
+
+    static async Task Main(string[] args)
     {
-        static TcpListener? Servidor;
+        Servidor = new TcpListener(IPAddress.Parse("127.0.0.1"), 10001);
+        Servidor.Start();
 
+        Console.WriteLine("Servidor: Servidor iniciado");
+        Console.WriteLine("Servidor: Esperando vehículos..");
 
-        static async Task Main(string[] args)
-        {            
-            byte[] bufferLectura = new byte[1024];
-
-            Servidor = new TcpListener(IPAddress.Parse("127.0.0.1"), 10001);
-            Servidor.Start();
-            Console.WriteLine("Servidor: Servidor iniciado");
-            Console.WriteLine("Servidor: Esperando vehículos..");
-
-            while (true)
-            {
-                TcpClient Cliente = await Servidor.AcceptTcpClientAsync();
-                _ = HandshakeHandler.GestionarClienteAsync(Cliente);
-            }
+        while (true)
+        {
+            TcpClient Cliente = await Servidor.AcceptTcpClientAsync();
+            _ = HandshakeHandler.GestionarClienteAsync(Cliente);
         }
     }
 }
