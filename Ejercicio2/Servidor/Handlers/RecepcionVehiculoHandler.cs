@@ -6,7 +6,7 @@ using VehiculoClass;
 
 namespace Servidor;
 
-public class VehiculoHandler
+public class RecepcionVehiculoHandler
 {
     public static void GestionarVehiculo(NetworkStream netwS, Carretera carretera)
     {
