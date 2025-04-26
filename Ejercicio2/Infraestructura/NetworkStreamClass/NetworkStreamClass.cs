@@ -10,33 +10,77 @@ using System.Threading.Tasks;
 namespace NetworkStreamNS;
 
 public static class NetworkStreamClass
-{
-    
+{    
     // Método para escribir en un NetworkStream los datos de tipo Carretera
     public static void EscribirDatosCarreteraNS(this NetworkStream netwS, Carretera C)
-    {            
-                        
+    {
+        if (netwS.CanWrite)
+        {
+            byte[] bytesCarretera = C.CarreteraABytes();
+            netwS.Write(bytesCarretera, 0, bytesCarretera.Length);
+        }
     }
 
 
     // Metódo para leer de un NetworkStream los datos que de un objeto Carretera
-    /*public static Carretera LeerDatosCarreteraNS (this NetworkStream netwS)
+    public static Carretera LeerDatosCarreteraNS (this NetworkStream netwS)
     {
-        
-    }*/
+        byte[] bufferLectura = new byte[8];
+
+        int bytesLeidos = 0;
+        var tmpStream = new MemoryStream();
+        byte[] bytesTotales;
+
+        do
+        {
+            int bytesLectura = netwS.Read(bufferLectura, 0, bufferLectura.Length);
+            
+            tmpStream.Write(bufferLectura, 0, bytesLectura);
+
+            bytesLeidos += bytesLectura;
+        }
+        while (netwS.DataAvailable);
+
+        bytesTotales = tmpStream.ToArray();
+
+        return Carretera.BytesACarretera(bytesTotales);
+    }
 
 
-    // Método para enviar datos de tipo Vehiculo en un NetworkStream
+    // Método para escribir datos de tipo Vehiculo en un NetworkStream
     public static void EscribirDatosVehiculoNS(this NetworkStream netwS, Vehiculo V)
-    {            
-                          
+    {
+        if (netwS.CanWrite)
+        {
+            byte[] bytesVehiculo = V.VehiculoaBytes();
+            netwS.Write(bytesVehiculo, 0, bytesVehiculo.Length);
+        }
     }
 
 
     // Metódo para leer de un NetworkStream los datos que de un objeto Vehiculo
-    /*public static Vehiculo LeerDatosVehiculoNS (this NetworkStream netwS)
+    public static Vehiculo LeerDatosVehiculoNS (this NetworkStream netwS)
     {
-    }*/
+        byte[] bufferLectura = new byte[8];
+
+        int bytesLeidos = 0;
+        var tmpStream = new MemoryStream();
+        byte[] bytesTotales;
+
+        do
+        {
+            int bytesLectura = netwS.Read(bufferLectura, 0, bufferLectura.Length);
+            
+            tmpStream.Write(bufferLectura, 0, bytesLectura);
+
+            bytesLeidos += bytesLectura;
+        }
+        while (netwS.DataAvailable);
+
+        bytesTotales = tmpStream.ToArray();
+
+        return Vehiculo.BytesAVehiculo(bytesTotales);
+    }
 
 
     // Método que permite leer un mensaje de tipo texto (string) de un NetworkStream
