@@ -68,7 +68,6 @@ Para esta tarea, se buscan los siguientes objetivos:
 <div align="center">
 
 ![Imagen de la prueba](Assets/Images/3-server-client-async.png)
-![Imagen de la prueba 2](Assets/Images/4-server-client-async.png)
 
 </div>
 
@@ -151,7 +150,6 @@ Para esta tarea, se buscan los siguientes objetivos:
 <div align="center">
 
 ![Imagen de la prueba](Assets/Images/6-lista-vehiculos.png)
-![Imagen de la prueba 2](Assets/Images/7-lista-vehiculos.png)
 
 </div>
 
