@@ -1,14 +1,16 @@
 
 using System.Net.Sockets;
+using CarreteraClass;
 using NetworkStreamNS;
+using VehiculoClass;
 
 namespace Servidor.Handlers;
 
 public static class HandshakeHandler
 {
-    
     private static int IdUnico = 0;
-    public static async Task GestionarClienteAsync(TcpClient cliente)
+    
+    public static async Task GestionarClienteAsync(TcpClient cliente, Carretera carretera)
     {
         int clienteId = Interlocked.Increment(ref IdUnico);
         Console.WriteLine($"\nServidor: Gestionando nuevo vehículo #{clienteId}");
@@ -37,9 +39,9 @@ public static class HandshakeHandler
                 return;
             }
 
-            Cliente clienteNuevo = new Cliente(clienteId, netwS);
-            ClienteManager.AñadirCliente(clienteNuevo);
-            Console.WriteLine($"Handshake OK con vehículo #{clienteId}\n");
+            ClienteManager.GestionarCliente(clienteId, netwS);
+
+            VehiculoHandler.GestionarVehiculo(netwS, carretera);            
             
             ClienteManager.MostrarClientesConectados();
         }

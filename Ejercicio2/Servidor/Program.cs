@@ -2,12 +2,14 @@
 using System.Net.Sockets;
 using System.Net;
 using Servidor.Handlers;
+using CarreteraClass;
 
 namespace Servidor;
 
 class Program
 {
     static TcpListener? Servidor;
+    static Carretera carretera = new Carretera();
 
 
     static async Task Main(string[] args)
@@ -21,7 +23,7 @@ class Program
         while (true)
         {
             TcpClient Cliente = await Servidor.AcceptTcpClientAsync();
-            _ = HandshakeHandler.GestionarClienteAsync(Cliente);
+            _ = HandshakeHandler.GestionarClienteAsync(Cliente, carretera);
         }
     }
 }

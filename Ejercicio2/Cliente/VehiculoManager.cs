@@ -7,11 +7,15 @@ namespace Cliente;
 
 public class VehiculoManager 
 {
-    public static void IniciarVehiculo(NetworkStream netwS, int id)
+    private static Vehiculo? vehiculo;
+
+    public static Vehiculo IniciarVehiculo(NetworkStream netwS, int clienteId)
     {
-        Vehiculo vehiculo = new Vehiculo();
-        vehiculo.Id = id;
+        vehiculo = new Vehiculo();
+        vehiculo.Id = clienteId;
 
         netwS.EscribirDatosVehiculoNS(vehiculo);
+
+        return vehiculo;
     }
 }

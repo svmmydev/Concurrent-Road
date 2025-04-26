@@ -1,11 +1,20 @@
 
 using System.Collections.Concurrent;
+using System.Net.Sockets;
 
 namespace Servidor;
 
 public class ClienteManager
 {
     private static readonly ConcurrentDictionary<int, Cliente> Clientes = new ConcurrentDictionary<int, Cliente>();
+
+
+    public static void GestionarCliente(int clienteId, NetworkStream netwS)
+    {
+        Cliente clienteNuevo = new Cliente(clienteId, netwS);
+        AñadirCliente(clienteNuevo);
+        Console.WriteLine($"Handshake OK con vehículo #{clienteId}\n");
+    }
 
 
     public static void AñadirCliente(Cliente cliente)
@@ -22,6 +31,6 @@ public class ClienteManager
     
     public static void MostrarClientesConectados()
     {
-        Console.WriteLine($"Vehículos conectados: {Clientes.Count}");
+        Console.WriteLine($"\n- Clientes conectados: {Clientes.Count} -");
     }
 }

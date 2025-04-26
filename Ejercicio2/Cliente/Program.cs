@@ -1,11 +1,11 @@
 ﻿
 using System.Net.Sockets;
+using VehiculoClass;
 
 namespace Cliente
 {
     class Program
     {
-
         static async Task Main(string[] args)
         {
             try
@@ -19,7 +19,9 @@ namespace Cliente
 
                 string id = await ClienteHandshake.InicioHandshakeCliente(netwS);
 
-                VehiculoManager.IniciarVehiculo(netwS, int.Parse(id));
+                Vehiculo vehiculo = VehiculoManager.IniciarVehiculo(netwS, int.Parse(id));
+                
+                Console.WriteLine($"Vehículo iniciado con ID #{id} y velocidad {vehiculo.Velocidad}");
             }
             catch (Exception e)
             {
