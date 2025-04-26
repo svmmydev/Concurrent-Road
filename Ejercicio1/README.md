@@ -45,8 +45,8 @@ Para esta tarea, se buscan los siguientes objetivos:
 
 <div align="center">
 
-![Imagen de la prueba](Assests/Images/1-server-conn.png)
-![Imagen de la prueba 2](Assests/Images/2-client-conn.png)
+![Imagen de la prueba](Assets/Images/1-server-conn.png)
+![Imagen de la prueba 2](Assets/Images/2-client-conn.png)
 
 </div>
 
@@ -67,8 +67,8 @@ Para esta tarea, se buscan los siguientes objetivos:
 
 <div align="center">
 
-![Imagen de la prueba](Assests/Images/3-server-client-async.png)
-![Imagen de la prueba 2](Assests/Images/4-server-client-async.png)
+![Imagen de la prueba](Assets/Images/3-server-client-async.png)
+![Imagen de la prueba 2](Assets/Images/4-server-client-async.png)
 
 </div>
 
@@ -88,7 +88,7 @@ Para esta tarea, se buscan los siguientes objetivos:
 
 <div align="center">
 
-![Imagen de la prueba](Assests/Images/5-id-control.png)
+![Imagen de la prueba](Assets/Images/5-id-control.png)
 
 </div>
 
@@ -150,8 +150,8 @@ Para esta tarea, se buscan los siguientes objetivos:
 
 <div align="center">
 
-![Imagen de la prueba](Assests/Images/6-lista-vehiculos.png)
-![Imagen de la prueba 2](Assests/Images/7-lista-vehiculos.png)
+![Imagen de la prueba](Assets/Images/6-lista-vehiculos.png)
+![Imagen de la prueba 2](Assets/Images/7-lista-vehiculos.png)
 
 </div>
 
