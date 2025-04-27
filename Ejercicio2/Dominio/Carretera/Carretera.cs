@@ -9,10 +9,12 @@ public class Carretera
     public List<Vehiculo> VehiculosEnCarretera = new List<Vehiculo>();
     public int NumVehiculosEnCarrera = 0;
 
+
     public Carretera ()
     {
 
     }
+
 
     //Crea un nuevo vehiculo
     public void CrearVehiculo ()
@@ -21,12 +23,14 @@ public class Carretera
         VehiculosEnCarretera.Add(V);
     }
 
+
     //Añade un vehiculo ya creado a la lista de vehiculos en carretera
     public void AñadirVehiculo (Vehiculo V)
     {
         VehiculosEnCarretera.Add(V);
         NumVehiculosEnCarrera++;
     }
+
 
     //Actualiza los datos de un vehiculo ya existente en la lista de vehiculos en carretera. 
     public void ActualizarVehiculo (Vehiculo V)
@@ -39,8 +43,9 @@ public class Carretera
         }
     }
 
-    //Muestra por pantalla los vehiculos en carretera. 
-    public void MostrarBicicletas ()
+
+    //Muestra por pantalla los vehículos en carretera.
+    public void MostrarVehiculos ()
     {
         string strVehs = "";
         foreach (Vehiculo v in VehiculosEnCarretera)
@@ -50,6 +55,7 @@ public class Carretera
 
         Console.WriteLine(strVehs);
     }
+
 
     //Permite serializar Carretera a array de bytes mediant formato XML
     public byte[] CarreteraABytes()
@@ -62,6 +68,7 @@ public class Carretera
        
         return MS.ToArray();
     }
+
 
     //Permite desserializar una cadena de bytes a un objeto de tipo Carretera
     public static Carretera BytesACarretera(byte[] bytesCarrera)

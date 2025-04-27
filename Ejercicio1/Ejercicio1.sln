@@ -7,12 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cliente", "Cliente\Cliente.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Servidor", "Servidor\Servidor.csproj", "{8980A755-A4DA-4434-89C1-6D7627FBC8CB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dominio", "Dominio", "{DC24F237-98EF-4008-A216-4465D4C34CF8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carretera", "Dominio\Carretera\Carretera.csproj", "{84A0CD22-2B61-4929-9D9B-9E26E03D78C5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vehiculo", "Dominio\Vehiculo\Vehiculo.csproj", "{0D7DB4A5-735A-4F47-8F8A-9BB5CAA90BDC}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infraestructura", "Infraestructura", "{360128F0-498E-4042-BF54-8C657C3D4690}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkStreamClass", "Infraestructura\NetworkStreamClass\NetworkStreamClass.csproj", "{7672BCA2-7ADF-4169-A6D1-F9AED9CF66C4}"
