@@ -20,6 +20,7 @@ namespace NetworkStreamNS
             netwS.Write(data, 0, data.Length);
         }
 
+
         // Método para leer de un NetworkStream los datos que de un objeto Carretera
         public static Carretera LeerDatosCarreteraNS(this NetworkStream netwS)
         {
@@ -40,6 +41,7 @@ namespace NetworkStreamNS
             return Carretera.BytesACarretera(buf);
         }
 
+
         // Método para enviar datos de tipo Vehiculo en un NetworkStream
         public static void EscribirDatosVehiculoNS(this NetworkStream netwS, Vehiculo V)
         {
@@ -48,6 +50,7 @@ namespace NetworkStreamNS
             netwS.Write(header, 0, header.Length);
             netwS.Write(data, 0, data.Length);
         }
+
 
         // Método para leer de un NetworkStream los datos que de un objeto Vehiculo
         public static Vehiculo LeerDatosVehiculoNS(this NetworkStream netwS)
@@ -69,6 +72,7 @@ namespace NetworkStreamNS
             return Vehiculo.BytesAVehiculo(buf);
         }
 
+
         // Método que permite leer un mensaje de tipo texto (string) de un NetworkStream
         public static async Task<string> LeerMensajeAsync(this NetworkStream netwS)
         {
@@ -86,6 +90,7 @@ namespace NetworkStreamNS
 
             return Encoding.UTF8.GetString(memS.ToArray());
         }
+
 
         // Método que permite escribir un mensaje de tipo texto (string) al NetworkStream
         public static async Task EscribirMensajeAsync(this NetworkStream netwS, string Str)
