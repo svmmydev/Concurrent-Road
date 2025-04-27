@@ -8,6 +8,7 @@ namespace Servidor;
 
 public class RecepcionVehiculoHandler
 {
+    
     public static void GestionarVehiculo(NetworkStream netwS, Carretera carretera)
     {
         Vehiculo vehiculo = netwS.LeerDatosVehiculoNS();
@@ -21,9 +22,29 @@ public class RecepcionVehiculoHandler
         {
             vehiculo = netwS.LeerDatosVehiculoNS();
             carretera.ActualizarVehiculo(vehiculo);
+            
+            EnviarEstadoCarretera(carretera);
 
             carretera.MostrarCarretera();
-            Thread.Sleep(200);
+        }
+
+
+    }
+
+
+    public static void EnviarEstadoCarretera(Carretera carretera)
+    {
+        foreach (Cliente cliente in ClienteManager.ClientesConectados())
+        {
+            try
+            {
+                cliente.ClienteNetwS.EscribirDatosCarreteraNS(carretera);
+            }
+            catch
+            {
+                ClienteManager.EliminarCliente(cliente.ClienteId);
+                Console.WriteLine($"# El cliente con id {cliente.ClienteId} se ha desconectado del servidor.");
+            }
         }
     }
 }

@@ -33,4 +33,10 @@ public class ClienteManager
     {
         Console.WriteLine($"# Clientes conectados: {Clientes.Count} #\n");
     }
+
+
+    public static IEnumerable<Cliente> ClientesConectados()
+    {
+        return Clientes.Values;
+    }
 }
