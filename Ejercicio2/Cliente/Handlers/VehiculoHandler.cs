@@ -3,9 +3,9 @@ using System.Net.Sockets;
 using NetworkStreamNS;
 using VehiculoClass;
 
-namespace Cliente;
+namespace Cliente.Handlers;
 
-public class VehiculoManager 
+public class VehiculoHandler 
 {
     private static Vehiculo? vehiculo;
 
