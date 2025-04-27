@@ -18,4 +18,17 @@ public class VehiculoManager
 
         return vehiculo;
     }
+
+
+    public static void MoverVehiculo(NetworkStream netwS)
+    {
+        for (int i = 0; i <= 100; i++)
+        {
+            Thread.Sleep(vehiculo.Velocidad);
+            vehiculo.Pos =+ i;
+            NetworkStreamClass.EscribirDatosVehiculoNS(netwS, vehiculo);
+        }
+
+        vehiculo.Acabado = true;
+    }
 }

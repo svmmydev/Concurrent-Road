@@ -24,15 +24,7 @@ namespace Cliente
                 
                 Console.WriteLine($"Vehículo iniciado con ID #{id} y velocidad {vehiculo.Velocidad}");
 
-                for (int i = 0; i <= 100; i++)
-                {
-                    Thread.Sleep(vehiculo.Velocidad);
-                    vehiculo.Pos =+ i;
-
-                    NetworkStreamClass.EscribirDatosVehiculoNS(netwS, vehiculo);
-                }
-
-                vehiculo.Acabado = true;
+                VehiculoManager.MoverVehiculo(netwS);
             }
             catch (Exception e)
             {

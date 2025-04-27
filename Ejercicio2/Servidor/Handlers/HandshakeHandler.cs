@@ -41,7 +41,7 @@ public static class HandshakeHandler
 
             ClienteManager.GestionarCliente(clienteId, netwS);
 
-            _ = Task.Run(() => RecepcionVehiculoHandler.GestionarVehiculo(netwS, carretera, clienteId));
+            _ = Task.Run(() => RecepcionVehiculoHandler.GestionarVehiculo(netwS, carretera));
             
             ClienteManager.MostrarClientesConectados();
         }
