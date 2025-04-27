@@ -15,11 +15,12 @@ public class Vehiculo
     
     public Vehiculo()
     {
-        var randVelocidad = new Random();
+        var random = new Random();
 
-        this.Velocidad = randVelocidad.Next(100,500);
+        this.Velocidad = random.Next(100,500);
         this.Pos = 0;
         this.Acabado = false;
+        this.Direccion = (random.Next(0, 2) == 1) ? "Norte" : "Sur";
     }
 
 

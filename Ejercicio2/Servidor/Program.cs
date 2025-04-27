@@ -17,8 +17,7 @@ class Program
         Servidor = new TcpListener(IPAddress.Parse("127.0.0.1"), 10001);
         Servidor.Start();
 
-        Console.WriteLine("Servidor: Servidor iniciado");
-        Console.WriteLine("Servidor: Esperando vehículos..");
+        Console.WriteLine("Servidor: Servidor iniciado, esperando clientes..");
 
         while (true)
         {

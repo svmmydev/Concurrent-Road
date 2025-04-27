@@ -8,6 +8,9 @@ public class Carretera
 {
     public List<Vehiculo> VehiculosEnCarretera = new List<Vehiculo>();
     public int NumVehiculosEnCarrera = 0;
+    const int totalKm = 100;
+    const int tamañoBarra = 20;
+    static object consoleLock = new object();
 
 
     public Carretera ()
@@ -45,15 +48,26 @@ public class Carretera
 
 
     //Muestra por pantalla los vehiculos en carretera. 
-    public void MostrarVehiculos ()
+    public void MostrarCarretera ()
     {
-        string strVehs = "";
-        foreach (Vehiculo v in VehiculosEnCarretera)
+        lock(consoleLock)
         {
-            strVehs = strVehs + "\t" + v.Pos;
-        }
+            Console.Clear();
 
-        Console.WriteLine(strVehs);
+            foreach (Vehiculo vehiculo in VehiculosEnCarretera.OrderBy(x => x.Id))
+            {
+                double porcentaje = (double)vehiculo.Pos / totalKm;
+                int llenos = (int)(porcentaje * tamañoBarra);
+                int vacios = tamañoBarra - llenos;
+
+                string carretera = new string('█', llenos) + new string('▒', vacios);
+
+                string estado = vehiculo.Pos >= totalKm ? "Terminado"
+                                                        : $"{vehiculo.Pos} km";
+
+                Console.WriteLine($"Vehículo #{vehiculo.Id}: {carretera} ({estado}) [{vehiculo.Direccion}]");
+            }
+        }
     }
 
 

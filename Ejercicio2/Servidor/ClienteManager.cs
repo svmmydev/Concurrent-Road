@@ -7,7 +7,7 @@ namespace Servidor;
 public class ClienteManager
 {
     private static readonly ConcurrentDictionary<int, Cliente> Clientes = new ConcurrentDictionary<int, Cliente>();
-
+    
 
     public static void GestionarCliente(int clienteId, NetworkStream netwS)
     {
@@ -31,6 +31,6 @@ public class ClienteManager
     
     public static void MostrarClientesConectados()
     {
-        Console.WriteLine($"\n- Clientes conectados: {Clientes.Count} -");
+        Console.WriteLine($"# Clientes conectados: {Clientes.Count} #\n");
     }
 }

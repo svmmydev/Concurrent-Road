@@ -27,7 +27,7 @@ namespace Cliente
                 for (int i = 0; i <= 100; i++)
                 {
                     Thread.Sleep(vehiculo.Velocidad);
-                    vehiculo.Pos += i;
+                    vehiculo.Pos =+ i;
 
                     NetworkStreamClass.EscribirDatosVehiculoNS(netwS, vehiculo);
                 }
@@ -38,9 +38,11 @@ namespace Cliente
             {
                 Console.WriteLine($"# Error al conectar con el servidor: {e.Message}");
             }
-
-            Console.WriteLine("Presiona Enter para salir..");
-            Console.ReadLine();
+            finally
+            {
+                Console.WriteLine("Presiona Enter para salir..");
+                Console.ReadLine();
+            }
         }
     }
 }
