@@ -41,7 +41,7 @@ public class RecepcionVehiculoHandler
                 catch
                 {
                     ClienteManager.EliminarCliente(cliente.ClienteId);
-                    Console.WriteLine($"# El cliente con id {cliente.ClienteId} se ha desconectado del servidor.");
+                    Console.WriteLine($"\n# El cliente con id {cliente.ClienteId} se ha desconectado del servidor #");
                 }
             }
         }

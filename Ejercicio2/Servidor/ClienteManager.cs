@@ -31,7 +31,7 @@ public class ClienteManager
     
     public static void MostrarClientesConectados()
     {
-        Console.WriteLine($"# Clientes conectados: {Clientes.Count} #\n");
+        Console.WriteLine($"# Clientes conectados: {Clientes.Count} #");
     }
 
 

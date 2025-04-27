@@ -11,10 +11,8 @@ namespace Cliente
             await netwS.EscribirMensajeAsync("INICIO");
 
             string clienteId = await netwS.LeerMensajeAsync();
-            Console.WriteLine($"ID Asignado: {clienteId}");
 
             await netwS.EscribirMensajeAsync(clienteId);
-            Console.WriteLine("Handshake completado!");
 
             return clienteId;
         }
