@@ -15,6 +15,10 @@
     <ProjectReference Include = "../Dominio/Vehiculo/Vehiculo.csproj" />
   </ItemGroup> 
 
+  <ItemGroup>
+    <ProjectReference Include = "../Dominio/Puente/Puente.csproj" />
+  </ItemGroup> 
+
     <ItemGroup>
     <ProjectReference Include = "../Dominio/Carretera/Carretera.csproj" />
   </ItemGroup> 

@@ -43,20 +43,20 @@ namespace NetworkStreamNS
 
 
         // Método para enviar datos de tipo Vehiculo en un NetworkStream
-        public static void EscribirDatosVehiculoNS(this NetworkStream netwS, Vehiculo V)
+        public static async Task EscribirDatosVehiculoNSAsync(this NetworkStream netwS, Vehiculo V)
         {
             byte[] data = V.VehiculoaBytes();
             byte[] header = BitConverter.GetBytes(IPAddress.HostToNetworkOrder(data.Length));
-            netwS.Write(header, 0, header.Length);
-            netwS.Write(data, 0, data.Length);
+            await netwS.WriteAsync(header, 0, header.Length);
+            await netwS.WriteAsync(data, 0, data.Length);
         }
 
 
         // Método para leer de un NetworkStream los datos que de un objeto Vehiculo
-        public static Vehiculo LeerDatosVehiculoNS(this NetworkStream netwS)
+        public static async Task<Vehiculo> LeerDatosVehiculoNSAsync(this NetworkStream netwS)
         {
             byte[] header = new byte[4];
-            int read = netwS.Read(header, 0, 4);
+            int read = await netwS.ReadAsync(header, 0, 4);
             if (read < 4) throw new IOException("Conexión cerrada al leer longitud de Vehículo");
 
             int length = IPAddress.NetworkToHostOrder(BitConverter.ToInt32(header, 0));
@@ -64,7 +64,7 @@ namespace NetworkStreamNS
             int total = 0;
             while (total < length)
             {
-                int n = netwS.Read(buf, total, length - total);
+                int n = await netwS.ReadAsync(buf, total, length - total);
                 if (n == 0) throw new IOException("Conexión cerrada al leer Vehículo");
                 total += n;
             }

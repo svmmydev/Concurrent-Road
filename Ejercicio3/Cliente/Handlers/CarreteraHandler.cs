@@ -21,8 +21,21 @@ public class CarreteraHandler
             {
                 carretera = netwS.LeerDatosCarreteraNS();
 
-                Console.Clear();
-                MostrarCarretera();
+                if (VehiculoHandler.vehiculo != null)
+                {
+                    var vehiculoEnServidor = carretera.VehiculosEnCarretera
+                        .FirstOrDefault(v => v.Id == VehiculoHandler.vehiculo.Id);
+
+                    if (vehiculoEnServidor != null)
+                    {
+                        VehiculoHandler.vehiculo.Parado = vehiculoEnServidor.Parado;
+                        VehiculoHandler.vehiculo.Pos = vehiculoEnServidor.Pos;
+                        VehiculoHandler.vehiculo.Acabado = vehiculoEnServidor.Acabado;
+                    }
+                }
+
+            Console.Clear();
+            MostrarCarretera();
             }
         }
         catch (IOException)
@@ -61,6 +74,14 @@ public class CarreteraHandler
                 if (displayPos == 0 || displayPos == 100)
                 {
                     estado = "Terminado";
+                }
+                else if (displayPos >= 40 && displayPos <= 60)
+                {
+                    estado = $"Cruzando - {displayPos} km";
+                }
+                else if (displayPos == 39 || displayPos == 61)
+                {
+                    estado = $"Esperando - {displayPos} km";
                 }
                 else
                 {

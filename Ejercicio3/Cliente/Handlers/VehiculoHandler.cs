@@ -1,5 +1,6 @@
 
 using System.Net.Sockets;
+using System.Threading.Tasks;
 using NetworkStreamNS;
 using VehiculoClass;
 
@@ -7,28 +8,35 @@ namespace Cliente.Handlers;
 
 public class VehiculoHandler 
 {
-    private static Vehiculo? vehiculo;
+    public static Vehiculo? vehiculo;
 
-    public static Vehiculo IniciarVehiculo(NetworkStream netwS, int clienteId)
+    public static async Task<Vehiculo> IniciarVehiculoAsync(NetworkStream netwS, int clienteId)
     {
         vehiculo = new Vehiculo();
         vehiculo.Id = clienteId;
 
-        netwS.EscribirDatosVehiculoNS(vehiculo);
+        await netwS.EscribirDatosVehiculoNSAsync(vehiculo);
 
         return vehiculo;
     }
 
-    public static void MoverVehiculo(NetworkStream netwS)
+    public static async Task MoverVehiculoAsync(NetworkStream netwS)
     {
-        for (int i = 1; i <= 100; i++)
+        while (vehiculo.Pos >= 0 && vehiculo.Pos <= 100 && !vehiculo.Acabado)
         {
-            Thread.Sleep(vehiculo.Velocidad);
-            vehiculo.Pos += 1;
-            NetworkStreamClass.EscribirDatosVehiculoNS(netwS, vehiculo);
+            if (!vehiculo.Parado)
+            {
+                vehiculo.Pos += 1;
+
+                if (vehiculo.Pos == 100 || vehiculo.Pos == 0) vehiculo.Acabado = true;
+                
+                await netwS.EscribirDatosVehiculoNSAsync(vehiculo);
+            }
+
+            await Task.Delay(vehiculo.Velocidad);
         }
         
         vehiculo.Acabado = true;
-        NetworkStreamClass.EscribirDatosVehiculoNS(netwS, vehiculo);
+        await netwS.EscribirDatosVehiculoNSAsync(vehiculo);
     }
 }

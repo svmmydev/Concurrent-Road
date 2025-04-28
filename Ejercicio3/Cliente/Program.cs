@@ -19,11 +19,11 @@ namespace Cliente
 
                 string id = await ClienteHandshake.InicioHandshakeCliente(netwS);
 
-                Vehiculo vehiculo = VehiculoHandler.IniciarVehiculo(netwS, int.Parse(id));
+                Vehiculo vehiculo = await VehiculoHandler.IniciarVehiculoAsync(netwS, int.Parse(id));
 
                 _ = Task.Run(() => CarreteraHandler.ActualizarCarretera(netwS));
 
-                VehiculoHandler.MoverVehiculo(netwS);
+                await VehiculoHandler.MoverVehiculoAsync(netwS);
             }
             catch (Exception e)
             {
