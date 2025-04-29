@@ -36,7 +36,6 @@ public class VehiculoHandler
             await Task.Delay(vehiculo.Velocidad);
         }
         
-        vehiculo.Acabado = true;
         await netwS.EscribirDatosVehiculoNSAsync(vehiculo);
     }
 }

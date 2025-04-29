@@ -40,6 +40,7 @@ public class Carretera
         {
             veh.Pos = V.Pos;
             veh.Velocidad = V.Velocidad;
+            veh.Parado = V.Parado;
         }
     }
 

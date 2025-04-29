@@ -34,8 +34,8 @@ public class CarreteraHandler
                     }
                 }
 
-            Console.Clear();
-            MostrarCarretera();
+                Console.Clear();
+                MostrarCarretera();
             }
         }
         catch (IOException)
@@ -57,11 +57,11 @@ public class CarreteraHandler
 
             foreach (Vehiculo vehiculo in carretera.VehiculosEnCarretera.OrderBy(x => x.Id))
             {
-                int displayPos = vehiculo.Direccion == "Sur"
+                int posicion = vehiculo.Direccion == "Sur"
                     ? totalKm - vehiculo.Pos
                     : vehiculo.Pos;
 
-                double porcentaje = (double)displayPos / totalKm;
+                double porcentaje = (double)posicion / totalKm;
                 int llenos  = (int)(porcentaje * tamañoBarra);
                 int vacios  = tamañoBarra - llenos;
 
@@ -69,27 +69,32 @@ public class CarreteraHandler
                     ? new string('▒', llenos) + new string('█', vacios)
                     : new string('█', llenos) + new string('▒', vacios);
 
-                string estado;
+                string estado = ObtenerEstadoVehiculo(posicion, vehiculo.Parado);
 
-                if (displayPos == 0 || displayPos == 100)
-                {
-                    estado = "Terminado";
-                }
-                else if (displayPos >= 40 && displayPos <= 60)
-                {
-                    estado = $"Cruzando - {displayPos} km";
-                }
-                else if (displayPos == 39 || displayPos == 61)
-                {
-                    estado = $"Esperando - {displayPos} km";
-                }
-                else
-                {
-                    estado = $"{displayPos} km";
-                }
+                Console.BackgroundColor = ObtenerColorEstado(posicion, vehiculo.Parado);
 
                 Console.WriteLine($"Vehículo #{vehiculo.Id}: {barra} ({estado}) [{vehiculo.Direccion}]");
+
+                Console.ResetColor();
             }
         }
+    }
+
+
+    private static string ObtenerEstadoVehiculo(int posicion, bool parado)
+    {
+        if (posicion == 0 || posicion == 100) return "Terminado";
+        else if (!parado && posicion >= 39 && posicion <= 61) return $"Cruzando - {posicion} km";
+        else if (parado && (posicion == 39 || posicion == 61)) return $"Esperando - {posicion} km";
+        else return $"{posicion} km";
+    }
+
+
+    private static ConsoleColor ObtenerColorEstado(int posicion, bool parado)
+    {
+        if (posicion == 0 || posicion == 100) return ConsoleColor.Green;
+        else if (!parado && posicion >= 39 && posicion <= 61) return ConsoleColor.Yellow;
+        else if (parado && (posicion == 39 || posicion == 61)) return ConsoleColor.Red;
+        else return ConsoleColor.Black;
     }
 }
