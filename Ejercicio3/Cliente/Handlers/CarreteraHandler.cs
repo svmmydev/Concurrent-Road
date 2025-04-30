@@ -56,9 +56,11 @@ public class CarreteraHandler
 
 
     /// <summary>
-    /// Muestra en consola una representación visual de la carretera con los vehículos en sus posiciones actuales.
-    /// Utiliza barras de progreso y colores para indicar el estado de cada vehículo.
-    /// </summary> 
+    /// Muestra en consola una representación visual del estado actual de la carretera.
+    /// Indica si cada vehículo está conectado o desconectado, usando colores y símbolos.
+    /// Vehículos conectados muestran una barra de progreso con su estado; 
+    /// los desconectados se muestran con un mensaje especial en gris.
+    /// </summary>
     private static void MostrarCarretera()
     {
         lock(consoleLock)
@@ -81,9 +83,16 @@ public class CarreteraHandler
 
                 string estado = ObtenerEstadoVehiculo(posicion, vehiculo.Parado);
 
-                Console.BackgroundColor = ObtenerColorEstado(posicion, vehiculo.Parado);
-
-                Console.WriteLine($"Vehículo #{vehiculo.Id}: {barra} ({estado}) [{vehiculo.Direccion}]");
+                if (vehiculo.Desconectado)
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"[✗] Desconectado: [ FALLO INESPERADO ] - Vehículo #{vehiculo.Id}");
+                }
+                else
+                {
+                    Console.BackgroundColor = ObtenerColorEstado(posicion, vehiculo.Parado);
+                    Console.WriteLine($"[✓] Conectado: {barra} ({estado}) [{vehiculo.Direccion}] - Vehículo #{vehiculo.Id}");
+                }
 
                 Console.ResetColor();
             }

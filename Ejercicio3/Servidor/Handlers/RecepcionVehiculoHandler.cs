@@ -14,6 +14,14 @@ public class RecepcionVehiculoHandler
     private static Puente puente = new Puente();
 
 
+    /// <summary>
+    /// Gestiona el ciclo de vida de un vehículo desde su incorporación a la carretera hasta su finalización.
+    /// Controla su paso por el puente, actualiza su estado en la carretera y sincroniza la información con todos los clientes.
+    /// Si el vehículo se desconecta inesperadamente, libera el puente y lo marca como desconectado.
+    /// </summary>
+    /// <param name="netwS">Flujo de red asociado al cliente que representa al vehículo.</param>
+    /// <param name="carretera">Instancia compartida de la carretera para actualizar y compartir el estado del vehículo.</param>
+    /// <returns>Una tarea asincrónica que representa la gestión completa del vehículo.</returns>
     public static async Task GestionarVehiculoAsync(NetworkStream netwS, Carretera carretera)
     {
         Vehiculo vehiculo = await netwS.LeerDatosVehiculoNSAsync();
@@ -21,36 +29,60 @@ public class RecepcionVehiculoHandler
 
         bool enPuente = false;
 
-        while(!vehiculo.Acabado)
+        try
         {
-            vehiculo = await netwS.LeerDatosVehiculoNSAsync();
-
-            if (!enPuente && vehiculo.Pos == 39)
+            while (!vehiculo.Acabado)
             {
-                vehiculo.Parado = true;
+                vehiculo = await netwS.LeerDatosVehiculoNSAsync();
+
+                if (!enPuente && vehiculo.Pos == 39)
+                {
+                    vehiculo.Parado = true;
+                    carretera.ActualizarVehiculo(vehiculo);
+                    EnviarEstadoCarretera(carretera);
+
+                    await puente.EntrarPuenteAsync(vehiculo);
+                    enPuente = true;
+
+                    vehiculo.Parado = false;
+                }
+
+                if (enPuente && vehiculo.Pos == 61)
+                {
+                    puente.SalirPuente(vehiculo.Id);
+                    enPuente = false;
+                }
+
+                carretera.ActualizarVehiculo(vehiculo);
+                EnviarEstadoCarretera(carretera);
+            }
+        }
+        catch (Exception ex)
+        {
+            Consola.Error($"Error con el vehículo {vehiculo.Id}: {ex.Message}");
+        }
+        finally
+        {
+            if (enPuente)
+            {
+                vehiculo.Desconectado = true;
                 carretera.ActualizarVehiculo(vehiculo);
                 EnviarEstadoCarretera(carretera);
 
-                await puente.EntrarPuenteAsync(vehiculo);
-
-                vehiculo.Parado = false;
-                enPuente = true;
-            }
-
-            if (enPuente && vehiculo.Pos == 61)
-            {
                 puente.SalirPuente(vehiculo.Id);
-                enPuente = false;
+                
+                Consola.Error($"Puente liberado forzosamente por caída del vehículo {vehiculo.Id}");
             }
-
-            carretera.ActualizarVehiculo(vehiculo);
-            EnviarEstadoCarretera(carretera);
         }
-
-        if (enPuente) puente.SalirPuente(vehiculo.Id);
     }
 
 
+
+    /// <summary>
+    /// Envía el estado actual de la carretera a todos los clientes conectados.
+    /// Si un cliente falla, se elimina de la lista de clientes activos.
+    /// </summary>
+    /// <param name="carretera">Carretera actual que se desea compartir con los clientes.</param>
     public static void EnviarEstadoCarretera(Carretera carretera)
     {
         lock(broadcastLock)
