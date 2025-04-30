@@ -52,6 +52,7 @@ public class Carretera
             veh.Pos = V.Pos;
             veh.Velocidad = V.Velocidad;
             veh.Parado = V.Parado;
+            veh.Acabado = V.Acabado;
             veh.Desconectado = V.Desconectado;
         }
     }

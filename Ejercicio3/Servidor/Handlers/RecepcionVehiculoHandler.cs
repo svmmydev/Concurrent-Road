@@ -53,24 +53,24 @@ public class RecepcionVehiculoHandler
                     enPuente = false;
                 }
 
+                vehiculo.Desconectado = false;
                 carretera.ActualizarVehiculo(vehiculo);
                 EnviarEstadoCarretera(carretera);
             }
         }
         catch (Exception ex)
         {
+            vehiculo.Desconectado = true;
             Consola.Error($"Error con el vehículo {vehiculo.Id}: {ex.Message}");
         }
         finally
         {
+            carretera.ActualizarVehiculo(vehiculo);
+            EnviarEstadoCarretera(carretera);
+                
             if (enPuente)
             {
-                vehiculo.Desconectado = true;
-                carretera.ActualizarVehiculo(vehiculo);
-                EnviarEstadoCarretera(carretera);
-
                 puente.SalirPuente(vehiculo.Id);
-                
                 Consola.Error($"Puente liberado forzosamente por caída del vehículo {vehiculo.Id}");
             }
         }

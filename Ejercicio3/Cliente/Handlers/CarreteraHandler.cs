@@ -38,6 +38,7 @@ public class CarreteraHandler
                         VehiculoHandler.vehiculo.Parado = vehiculoEnServidor.Parado;
                         VehiculoHandler.vehiculo.Pos = vehiculoEnServidor.Pos;
                         VehiculoHandler.vehiculo.Acabado = vehiculoEnServidor.Acabado;
+                        VehiculoHandler.vehiculo.Desconectado = vehiculoEnServidor.Desconectado;
                     }
                 }
 

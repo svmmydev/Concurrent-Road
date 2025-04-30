@@ -20,7 +20,6 @@ public class ClienteManager
     {
         Cliente clienteNuevo = new Cliente(clienteId, netwS);
         AñadirCliente(clienteNuevo);
-        Consola.Success($"Handshake OK con vehículo #{clienteId}");
     }
 
     
