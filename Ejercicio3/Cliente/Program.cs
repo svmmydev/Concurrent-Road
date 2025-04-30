@@ -1,6 +1,7 @@
 ﻿
 using System.Net.Sockets;
 using Cliente.Handlers;
+using Infraestructura.Utils;
 using NetworkStreamNS;
 using VehiculoClass;
 
@@ -8,6 +9,11 @@ namespace Cliente
 {
     class Program
     {
+        /// <summary>
+        /// Punto de entrada principal del cliente. Establece conexión con el servidor,
+        /// realiza el handshake inicial, registra el vehículo, lanza el hilo para actualizar
+        /// la carretera y comienza el movimiento del vehículo.
+        /// </summary>
         static async Task Main(string[] args)
         {
             try
@@ -27,7 +33,7 @@ namespace Cliente
             }
             catch (Exception e)
             {
-                Console.WriteLine($"# Error al conectar con el servidor: {e.Message}");
+                Consola.Error($"Error al conectar con el servidor: {e.Message}");
             }
         }
     }

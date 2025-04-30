@@ -1,6 +1,7 @@
 
 using System.Net.Sockets;
 using CarreteraClass;
+using Infraestructura.Utils;
 using NetworkStreamNS;
 using VehiculoClass;
 
@@ -13,6 +14,12 @@ public class CarreteraHandler
     const int tamañoBarra = 20;
     static object consoleLock = new object();
 
+
+    /// <summary>
+    /// Recibe continuamente el estado actualizado de la carretera desde el servidor a través de un NetworkStream.
+    /// Actualiza el estado del vehículo local si está presente y muestra la carretera en consola.
+    /// </summary>
+    /// <param name="netwS">Stream de red conectado al servidor.</param>
     public static void ActualizarCarretera(NetworkStream netwS)
     {
         try
@@ -34,21 +41,24 @@ public class CarreteraHandler
                     }
                 }
 
-                Console.Clear();
                 MostrarCarretera();
             }
         }
         catch (IOException)
         {
-            Console.WriteLine("El servidor cerró el stream o hubo un error de red: Saliendo..");
+            Consola.Error("El servidor cerró el stream o hubo un error de red: Saliendo..");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error recibiendo carretera: {ex.Message}");
+            Consola.Error($"Error recibiendo carretera: {ex.Message}");
         }
     }
 
-    //Muestra por pantalla la carretera. 
+
+    /// <summary>
+    /// Muestra en consola una representación visual de la carretera con los vehículos en sus posiciones actuales.
+    /// Utiliza barras de progreso y colores para indicar el estado de cada vehículo.
+    /// </summary> 
     private static void MostrarCarretera()
     {
         lock(consoleLock)
@@ -81,6 +91,12 @@ public class CarreteraHandler
     }
 
 
+    /// <summary>
+    /// Devuelve un string que representa el estado actual de un vehículo según su posición y si está parado.
+    /// </summary>
+    /// <param name="posicion">Posición del vehículo en kilómetros.</param>
+    /// <param name="parado">Indica si el vehículo está detenido.</param>
+    /// <returns>Una descripción del estado del vehículo.</returns>
     private static string ObtenerEstadoVehiculo(int posicion, bool parado)
     {
         if (posicion == 0 || posicion == 100) return "Terminado";
@@ -90,6 +106,12 @@ public class CarreteraHandler
     }
 
 
+    /// <summary>
+    /// Determina el color de fondo que se debe usar en consola para representar visualmente el estado del vehículo.
+    /// </summary>
+    /// <param name="posicion">Posición del vehículo en kilómetros.</param>
+    /// <param name="parado">Indica si el vehículo está detenido.</param>
+    /// <returns>Un valor de ConsoleColor que representa el estado del vehículo.</returns>
     private static ConsoleColor ObtenerColorEstado(int posicion, bool parado)
     {
         if (posicion == 0 || posicion == 100) return ConsoleColor.Green;

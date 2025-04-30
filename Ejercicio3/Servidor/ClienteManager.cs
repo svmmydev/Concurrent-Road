@@ -1,6 +1,7 @@
 
 using System.Collections.Concurrent;
 using System.Net.Sockets;
+using Infraestructura.Utils;
 
 namespace Servidor;
 
@@ -13,7 +14,7 @@ public class ClienteManager
     {
         Cliente clienteNuevo = new Cliente(clienteId, netwS);
         AñadirCliente(clienteNuevo);
-        Console.WriteLine($"Handshake OK con vehículo #{clienteId}\n");
+        Consola.Success($"Handshake OK con vehículo #{clienteId}");
     }
 
 
@@ -31,7 +32,7 @@ public class ClienteManager
     
     public static void MostrarClientesConectados()
     {
-        Console.WriteLine($"# Clientes conectados: {Clientes.Count} #");
+        Consola.Info($"Clientes conectados: #{Clientes.Count}");
     }
 
 

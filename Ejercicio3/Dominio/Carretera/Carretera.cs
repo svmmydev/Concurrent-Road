@@ -10,13 +10,18 @@ public class Carretera
     public int NumVehiculosEnCarrera = 0;
 
 
+    /// <summary>
+    /// Constructor por defecto necesario para la serialización XML.
+    /// </summary>
     public Carretera ()
     {
 
     }
 
 
-    //Crea un nuevo vehiculo
+    /// <summary>
+    /// Crea y añade un nuevo vehículo vacío a la lista de vehículos en carretera.
+    /// </summary>
     public void CrearVehiculo ()
     {
         Vehiculo V = new Vehiculo();
@@ -24,7 +29,10 @@ public class Carretera
     }
 
 
-    //Añade un vehiculo ya creado a la lista de vehiculos en carretera
+    /// <summary>
+    /// Añade un vehículo ya creado a la lista de vehículos en carretera y aumenta el contador total.
+    /// </summary>
+    /// <param name="V">Vehículo a añadir.</param>
     public void AñadirVehiculo (Vehiculo V)
     {
         VehiculosEnCarretera.Add(V);
@@ -32,7 +40,10 @@ public class Carretera
     }
 
 
-    //Actualiza los datos de un vehiculo ya existente en la lista de vehiculos en carretera. 
+    /// <summary>
+    /// Actualiza los datos (posición, velocidad y estado) de un vehículo existente en la carretera.
+    /// </summary>
+    /// <param name="V">Vehículo con los datos actualizados.</param>
     public void ActualizarVehiculo (Vehiculo V)
     {
         Vehiculo veh = VehiculosEnCarretera.FirstOrDefault(x => x.Id == V.Id);
@@ -45,7 +56,9 @@ public class Carretera
     }
 
 
-    //Muestra por pantalla los vehículos en carretera.
+    /// <summary>
+    /// Muestra por consola las posiciones de todos los vehículos actualmente en la carretera.
+    /// </summary>
     public void MostrarVehiculos ()
     {
         string strVehs = "";
@@ -58,7 +71,10 @@ public class Carretera
     }
 
 
-    //Permite serializar Carretera a array de bytes mediant formato XML
+    /// <summary>
+    /// Serializa el objeto Carretera en un array de bytes usando formato XML.
+    /// </summary>
+    /// <returns>Array de bytes que representa el objeto serializado.</returns>
     public byte[] CarreteraABytes()
     {
         XmlSerializer serializer = new XmlSerializer(typeof(Carretera));
@@ -71,7 +87,11 @@ public class Carretera
     }
 
 
-    //Permite desserializar una cadena de bytes a un objeto de tipo Carretera
+    /// <summary>
+    /// Deserializa un array de bytes en un objeto Carretera.
+    /// </summary>
+    /// <param name="bytesCarrera">Array de bytes que contiene los datos serializados.</param>
+    /// <returns>Objeto Carretera reconstruido.</returns>
     public static Carretera BytesACarretera(byte[] bytesCarrera)
     {
         Carretera tmpCarretera; 

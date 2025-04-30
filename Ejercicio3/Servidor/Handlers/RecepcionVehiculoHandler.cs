@@ -1,7 +1,7 @@
 
 using System.Net.Sockets;
-using System.Threading.Tasks;
 using CarreteraClass;
+using Infraestructura.Utils;
 using NetworkStreamNS;
 using PuenteClass;
 using VehiculoClass;
@@ -39,7 +39,7 @@ public class RecepcionVehiculoHandler
 
             if (enPuente && vehiculo.Pos == 61)
             {
-                puente.SalirPuente(vehiculo);
+                puente.SalirPuente(vehiculo.Id);
                 enPuente = false;
             }
 
@@ -47,7 +47,7 @@ public class RecepcionVehiculoHandler
             EnviarEstadoCarretera(carretera);
         }
 
-        if (enPuente) puente.SalirPuente(vehiculo);
+        if (enPuente) puente.SalirPuente(vehiculo.Id);
     }
 
 
@@ -64,7 +64,7 @@ public class RecepcionVehiculoHandler
                 catch
                 {
                     ClienteManager.EliminarCliente(cliente.ClienteId);
-                    Console.WriteLine($"\n# El cliente con id {cliente.ClienteId} se ha desconectado del servidor #");
+                    Consola.Success($"El cliente con id #{cliente.ClienteId} ha realizado el servicio con éxito y se le ha desconectado del servidor");
                 }
             }
         }

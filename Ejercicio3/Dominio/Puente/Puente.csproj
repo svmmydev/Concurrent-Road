@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include = "../Vehiculo/Vehiculo.csproj" />
-  </ItemGroup> 
+    <ProjectReference Include="../Vehiculo/Vehiculo.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../Infraestructura\Infraestructura.csproj" />
+  </ItemGroup>
+
 </Project>

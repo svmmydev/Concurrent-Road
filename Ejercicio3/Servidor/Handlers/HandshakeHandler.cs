@@ -1,8 +1,8 @@
 
 using System.Net.Sockets;
 using CarreteraClass;
+using Infraestructura.Utils;
 using NetworkStreamNS;
-using VehiculoClass;
 
 namespace Servidor.Handlers;
 
@@ -13,7 +13,7 @@ public static class HandshakeHandler
     public static async Task GestionarClienteAsync(TcpClient cliente, Carretera carretera)
     {
         int clienteId = Interlocked.Increment(ref IdUnico);
-        Console.WriteLine($"\nServidor: Gestionando nuevo vehículo #{clienteId}");
+        Consola.Info("Gestionando nuevo vehículo #{clienteId}");
 
         NetworkStream netwS = cliente.GetStream();
 
@@ -22,7 +22,7 @@ public static class HandshakeHandler
             string inicio = await netwS.LeerMensajeAsync();
             if (inicio != "INICIO")
             {
-                Console.WriteLine($"# Error: Handshake iniciado incorrecto: {inicio}");
+                Consola.Error($"Handshake iniciado incorrecto: {inicio}");
                 cliente.Close();
                 
                 return;
@@ -33,7 +33,7 @@ public static class HandshakeHandler
             string confirmacion = await netwS.LeerMensajeAsync();
             if (confirmacion != clienteId.ToString())
             {
-                Console.WriteLine($"# Error: Confirmación de ID incorrecta: {confirmacion}");
+                Consola.Error($"Confirmación de ID incorrecta: {confirmacion}");
                 cliente.Close();
 
                 return;
@@ -47,7 +47,7 @@ public static class HandshakeHandler
         }
         catch (Exception e)
         {
-            Console.WriteLine($"# Error: Conexión con el cliente {clienteId} fallida: {e.Message}");
+            Consola.Error($"Conexión con el cliente {clienteId} fallida: {e.Message}");
         }
     }
 }

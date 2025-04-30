@@ -3,6 +3,7 @@ using System.Net.Sockets;
 using System.Net;
 using Servidor.Handlers;
 using CarreteraClass;
+using Infraestructura.Utils;
 
 namespace Servidor;
 
@@ -17,7 +18,7 @@ class Program
         Servidor = new TcpListener(IPAddress.Parse("127.0.0.1"), 10001);
         Servidor.Start();
 
-        Console.WriteLine("Servidor: Servidor iniciado, esperando clientes..");
+        Consola.Info("Servidor iniciado, esperando clientes..");
 
         while (true)
         {

@@ -13,18 +13,25 @@ public class Vehiculo
     public bool Parado {get; set;}
     
     
+    /// <summary>
+    /// Constructor por defecto que inicializa el vehículo con una velocidad aleatoria,
+    /// posición inicial en 0 y dirección aleatoria ("Norte" o "Sur").
+    /// </summary>
     public Vehiculo()
     {
         var random = new Random();
 
-        this.Velocidad = random.Next(100,500);
-        this.Pos = 0;
-        this.Acabado = false;
-        this.Direccion = (random.Next(0, 2) == 1) ? "Norte" : "Sur";
+        Velocidad = random.Next(100,500);
+        Pos = 0;
+        Acabado = false;
+        Direccion = (random.Next(0, 2) == 1) ? "Norte" : "Sur";
     }
 
 
-    //Permite serializar Vehiculo a array de bytes mediant formato XML
+    /// <summary>
+    /// Serializa el objeto Vehiculo en un array de bytes utilizando formato XML.
+    /// </summary>
+    /// <returns>Array de bytes que representa el objeto serializado.</returns>
     public byte[] VehiculoaBytes()
     {
         XmlSerializer serializer = new XmlSerializer(typeof(Vehiculo));
@@ -37,7 +44,11 @@ public class Vehiculo
     }
 
 
-    //Permite desserializar una cadena de bytes a un objeto de tipo Vehiculo
+    /// <summary>
+    /// Deserializa un array de bytes en un objeto Vehiculo.
+    /// </summary>
+    /// <param name="bytesVehiculo">Array de bytes que contiene los datos serializados del vehículo.</param>
+    /// <returns>Objeto Vehiculo reconstruido desde los datos.</returns>
     public static Vehiculo BytesAVehiculo(byte[] bytesVehiculo)
     {
         Vehiculo tmpVehiculo; 

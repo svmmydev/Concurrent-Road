@@ -11,7 +11,11 @@ namespace NetworkStreamNS
 {
     public static class NetworkStreamClass
     {
-        // Método para escribir en un NetworkStream los datos de tipo Carretera
+        /// <summary>
+        /// Escribe un objeto Carretera en el NetworkStream incluyendo una cabecera con su tamaño.
+        /// </summary>
+        /// <param name="netwS">Stream de red donde se escriben los datos.</param>
+        /// <param name="C">Objeto Carretera a serializar y enviar.</param>
         public static void EscribirDatosCarreteraNS(this NetworkStream netwS, Carretera C)
         {
             byte[] data = C.CarreteraABytes();
@@ -21,7 +25,12 @@ namespace NetworkStreamNS
         }
 
 
-        // Método para leer de un NetworkStream los datos que de un objeto Carretera
+        /// <summary>
+        /// Lee un objeto Carretera desde el NetworkStream, leyendo primero la cabecera de longitud.
+        /// </summary>
+        /// <param name="netwS">Stream de red desde el que se leen los datos.</param>
+        /// <returns>Objeto Carretera deserializado.</returns>
+        /// <exception IOException>Si la conexión se cierra inesperadamente.</exception>
         public static Carretera LeerDatosCarreteraNS(this NetworkStream netwS)
         {
             byte[] header = new byte[4];
@@ -42,7 +51,12 @@ namespace NetworkStreamNS
         }
 
 
-        // Método para enviar datos de tipo Vehiculo en un NetworkStream
+        /// <summary>
+        /// Serializa y envía un objeto Vehiculo por el NetworkStream, incluyendo una cabecera de longitud.
+        /// </summary>
+        /// <param name="netwS">Stream de red por donde se envía el objeto.</param>
+        /// <param name="V">Vehículo a serializar y enviar.</param>
+        /// <returns>Una tarea asincrónica que representa la operación de escritura.</returns>
         public static async Task EscribirDatosVehiculoNSAsync(this NetworkStream netwS, Vehiculo V)
         {
             byte[] data = V.VehiculoaBytes();
@@ -52,7 +66,12 @@ namespace NetworkStreamNS
         }
 
 
-        // Método para leer de un NetworkStream los datos que de un objeto Vehiculo
+        /// <summary>
+        /// Recibe y deserializa un objeto Vehiculo desde el NetworkStream, interpretando su longitud primero.
+        /// </summary>
+        /// <param name="netwS">Stream de red desde donde se recibe el objeto.</param>
+        /// <returns>Vehículo reconstruido a partir del stream.</returns>
+        /// <exception IOException>Si la conexión se cierra inesperadamente.</exception>
         public static async Task<Vehiculo> LeerDatosVehiculoNSAsync(this NetworkStream netwS)
         {
             byte[] header = new byte[4];
@@ -73,7 +92,12 @@ namespace NetworkStreamNS
         }
 
 
-        // Método que permite leer un mensaje de tipo texto (string) de un NetworkStream
+        /// <summary>
+        /// Lee un mensaje de texto completo desde el NetworkStream hasta que no haya más datos disponibles.
+        /// </summary>
+        /// <param name="netwS">Stream de red desde el que se lee el mensaje.</param>
+        /// <returns>Mensaje recibido como string.</returns>
+        /// <exception IOException>Si la conexión se cierra inesperadamente.</exception>
         public static async Task<string> LeerMensajeAsync(this NetworkStream netwS)
         {
             using var memS = new MemoryStream();
@@ -92,7 +116,12 @@ namespace NetworkStreamNS
         }
 
 
-        // Método que permite escribir un mensaje de tipo texto (string) al NetworkStream
+        /// <summary>
+        /// Escribe un mensaje de texto como string en el NetworkStream, codificado en UTF-8.
+        /// </summary>
+        /// <param name="netwS">Stream de red donde se envía el mensaje.</param>
+        /// <param name="Str">Cadena de texto a enviar.</param>
+        /// <returns>Una tarea asincrónica que representa la operación de escritura.</returns>
         public static async Task EscribirMensajeAsync(this NetworkStream netwS, string Str)
         {
             byte[] buffer = Encoding.UTF8.GetBytes(Str);
