@@ -34,7 +34,7 @@ Para esta tarea, se buscan los siguientes objetivos:
 ### Etapa 9
 #### *Crear y enviar datos de un vehículo*
 
-> Para esta tarea, como se realizó el el README posteriormente, decio publicar la siguiente prueba donde se puede pareciar como 3 vehículos están en asimetría total cada uno con su propio camino y velocidad.
+> Para esta tarea, como se realizó el README posteriormente, decio publicar la siguiente prueba donde se puede pareciar como 3 vehículos están en asimetría total cada uno con su propio camino y velocidad.
 
 <br>
 
