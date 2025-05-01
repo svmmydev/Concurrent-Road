@@ -16,10 +16,12 @@ public class ClienteManager
     /// </summary>
     /// <param name="clienteId">Identificador único del cliente.</param>
     /// <param name="netwS">Flujo de red asociado a ese cliente.</param>
-    public static void GestionarCliente(int clienteId, NetworkStream netwS)
+    public static Cliente GestionarCliente(int clienteId, NetworkStream netwS)
     {
         Cliente clienteNuevo = new Cliente(clienteId, netwS);
         AñadirCliente(clienteNuevo);
+
+        return clienteNuevo;
     }
 
     

@@ -11,7 +11,6 @@ namespace Servidor;
 public class RecepcionVehiculoHandler
 {
     private static object broadcastLock = new object();
-    private static Puente puente = new Puente();
 
 
     /// <summary>
@@ -19,12 +18,12 @@ public class RecepcionVehiculoHandler
     /// Controla su paso por el puente, actualiza su estado en la carretera y sincroniza la información con todos los clientes.
     /// Si el vehículo se desconecta inesperadamente, libera el puente y lo marca como desconectado.
     /// </summary>
-    /// <param name="netwS">Flujo de red asociado al cliente que representa al vehículo.</param>
+    /// <param name="cliente">Cliente que representa al vehículo.</param>
     /// <param name="carretera">Instancia compartida de la carretera para actualizar y compartir el estado del vehículo.</param>
     /// <returns>Una tarea asincrónica que representa la gestión completa del vehículo.</returns>
-    public static async Task GestionarVehiculoAsync(NetworkStream netwS, Carretera carretera)
+    public static async Task GestionarVehiculoAsync(Cliente cliente, Carretera carretera)
     {
-        Vehiculo vehiculo = await netwS.LeerDatosVehiculoNSAsync();
+        Vehiculo vehiculo = await cliente.ClienteNetwS.LeerDatosVehiculoNSAsync();
         carretera.AñadirVehiculo(vehiculo);
 
         bool enPuente = false;
@@ -33,7 +32,7 @@ public class RecepcionVehiculoHandler
         {
             while (!vehiculo.Acabado)
             {
-                vehiculo = await netwS.LeerDatosVehiculoNSAsync();
+                vehiculo = await cliente.ClienteNetwS.LeerDatosVehiculoNSAsync();
 
                 if (!enPuente && vehiculo.Pos == 39)
                 {
@@ -41,7 +40,7 @@ public class RecepcionVehiculoHandler
                     carretera.ActualizarVehiculo(vehiculo);
                     EnviarEstadoCarretera(carretera);
 
-                    await puente.EntrarPuenteAsync(vehiculo);
+                    await Puente.EntrarPuenteAsync(vehiculo);
                     enPuente = true;
 
                     vehiculo.Parado = false;
@@ -49,7 +48,7 @@ public class RecepcionVehiculoHandler
 
                 if (enPuente && vehiculo.Pos == 61)
                 {
-                    puente.SalirPuente(vehiculo.Id);
+                    Puente.SalirPuente(vehiculo.Id);
                     enPuente = false;
                 }
 
@@ -57,6 +56,8 @@ public class RecepcionVehiculoHandler
                 carretera.ActualizarVehiculo(vehiculo);
                 EnviarEstadoCarretera(carretera);
             }
+
+            Consola.Success($"El cliente con id #{cliente.ClienteId} ha realizado el servicio con éxito y se le ha desconectado del servidor");
         }
         catch (Exception ex)
         {
@@ -70,7 +71,9 @@ public class RecepcionVehiculoHandler
                 
             if (enPuente)
             {
-                puente.SalirPuente(vehiculo.Id);
+                Puente.SalirPuente(vehiculo.Id);
+                ClienteManager.EliminarCliente(cliente.ClienteId);
+
                 Consola.Error($"Puente liberado forzosamente por caída del vehículo {vehiculo.Id}");
             }
         }
@@ -96,7 +99,6 @@ public class RecepcionVehiculoHandler
                 catch
                 {
                     ClienteManager.EliminarCliente(cliente.ClienteId);
-                    Consola.Success($"El cliente con id #{cliente.ClienteId} ha realizado el servicio con éxito y se le ha desconectado del servidor");
                 }
             }
         }

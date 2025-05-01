@@ -48,9 +48,9 @@ public static class HandshakeHandler
 
             Consola.Success($"Handshake OK con vehículo #{clienteId}");
 
-            ClienteManager.GestionarCliente(clienteId, netwS);
+            var clienteNuevo = ClienteManager.GestionarCliente(clienteId, netwS);
 
-            _ = Task.Run(() => RecepcionVehiculoHandler.GestionarVehiculoAsync(netwS, carretera));
+            _ = Task.Run(() => RecepcionVehiculoHandler.GestionarVehiculoAsync(clienteNuevo, carretera));
             
             ClienteManager.MostrarClientesConectados();
         }

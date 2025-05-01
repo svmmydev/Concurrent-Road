@@ -3,11 +3,11 @@ using VehiculoClass;
 
 namespace PuenteClass;
 
-public class Puente
+public static class Puente
 {
-    private readonly SemaphoreSlim semaforoPuente = new SemaphoreSlim(1, 1);
-    private readonly PriorityQueue<Vehiculo, int> colaEspera = new();
-    private readonly object lockCola = new();
+    private static readonly SemaphoreSlim semaforoPuente = new SemaphoreSlim(1, 1);
+    private static readonly PriorityQueue<Vehiculo, int> colaEspera = new();
+    private static readonly object lockCola = new();
 
 
     /// <summary>
@@ -16,7 +16,7 @@ public class Puente
     /// </summary>
     /// <param name="vehiculo">Vehículo que desea cruzar el puente.</param>
     /// <returns>Una tarea asincrónica que finaliza cuando el vehículo entra al puente.</returns>
-    public async Task EntrarPuenteAsync(Vehiculo vehiculo)
+    public static async Task EntrarPuenteAsync(Vehiculo vehiculo)
     {
         int prioridad = vehiculo.Direccion == "Sur" ? 0 : 1;
 
@@ -54,7 +54,7 @@ public class Puente
     /// Libera el semáforo del puente una vez que el vehículo ha terminado de cruzar.
     /// </summary>
     /// <param name="vehiculoId">Identificador del vehículo que sale del puente.</param>
-    public void SalirPuente(int vehiculoId)
+    public static void SalirPuente(int vehiculoId)
     {
         Consola.Success($"Vehículo {vehiculoId} ha salido del puente");
         semaforoPuente.Release();
