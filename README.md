@@ -66,7 +66,15 @@ El sistema se divide en **cliente** y **servidor**, ambos comunicándose mediant
     <tr>
         <td>
             <pre>
-                Ejercicio3
+                CARRETERA-CONCURRENTE
+                │
+                ├── 📁 Assets
+                │
+                ├── 📁 Ejercicio1
+                │
+                ├── 📁 Ejercicio2
+                │
+                ├── 📁 Ejercicio3
                 │
                 ├── 🧑‍💻 Cliente
                 │   ├── 📁 Handlers
