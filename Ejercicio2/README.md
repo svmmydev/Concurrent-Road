@@ -50,11 +50,6 @@ Para esta tarea, se buscan los siguientes objetivos:
 
 <br>
 
-> [!NOTE]
-> Las pruebas de esta tarea se reflejarán con la `Etapa 10` ya que sin esta, no se puede realizar la siguiente. Cazamos dos pájaros de un tiro.
-
-<br>
-
 ### Etapa 10
 #### *Mover los vehiculos*
 
