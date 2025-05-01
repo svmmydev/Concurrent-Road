@@ -1,6 +1,7 @@
 
 using System.Collections.Concurrent;
 using System.Net.Sockets;
+using Servidor;
 
 namespace Servidor;
 
@@ -9,11 +10,13 @@ public class ClienteManager
     private static readonly ConcurrentDictionary<int, Cliente> Clientes = new ConcurrentDictionary<int, Cliente>();
     
 
-    public static void GestionarCliente(int clienteId, NetworkStream netwS)
+    public static Cliente GestionarCliente(int clienteId, NetworkStream netwS)
     {
         Cliente clienteNuevo = new Cliente(clienteId, netwS);
         AñadirCliente(clienteNuevo);
         Console.WriteLine($"Handshake OK con vehículo #{clienteId}\n");
+
+        return clienteNuevo;
     }
 
 

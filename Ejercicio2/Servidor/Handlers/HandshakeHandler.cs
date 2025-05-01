@@ -3,6 +3,7 @@ using System.Net.Sockets;
 using CarreteraClass;
 using NetworkStreamNS;
 using VehiculoClass;
+using Servidor;
 
 namespace Servidor.Handlers;
 
@@ -39,9 +40,9 @@ public static class HandshakeHandler
                 return;
             }
 
-            ClienteManager.GestionarCliente(clienteId, netwS);
+            var nuevoCliente = ClienteManager.GestionarCliente(clienteId, netwS);
 
-            _ = Task.Run(() => RecepcionVehiculoHandler.GestionarVehiculo(netwS, carretera));
+            _ = Task.Run(() => RecepcionVehiculoHandler.GestionarVehiculo(nuevoCliente, carretera));
             
             ClienteManager.MostrarClientesConectados();
         }
