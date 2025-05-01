@@ -40,7 +40,7 @@ Para esta tarea, se buscan los siguientes objetivos:
 
 <div align="center">
 
-![Imagen de la prueba](../Assets/Images/8-lista-vehiculos.png)
+![Imagen de la prueba](../Assets/Images/8-varios-vehiculos-instanciados.png)
 
 </div>
 
