@@ -46,7 +46,7 @@ public class Carretera
     /// <param name="V">Vehículo con los datos actualizados.</param>
     public void ActualizarVehiculo (Vehiculo V)
     {
-        Vehiculo veh = VehiculosEnCarretera.FirstOrDefault(x => x.Id == V.Id);
+        Vehiculo? veh = VehiculosEnCarretera.FirstOrDefault(x => x.Id == V.Id);
         if (veh != null) 
         {
             veh.Pos = V.Pos;
@@ -98,11 +98,11 @@ public class Carretera
     {
         Carretera tmpCarretera; 
         
-        XmlSerializer serializer = new XmlSerializer(typeof(Carretera));
+        XmlSerializer serializer = new XmlSerializer(typeof(Carretera))!;
 
         MemoryStream MS = new MemoryStream(bytesCarrera);
 
-        tmpCarretera = (Carretera) serializer.Deserialize(MS);
+        tmpCarretera = (Carretera) serializer.Deserialize(MS)!;
 
         return tmpCarretera;
     }    

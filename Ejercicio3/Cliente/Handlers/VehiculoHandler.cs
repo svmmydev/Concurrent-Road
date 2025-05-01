@@ -1,6 +1,5 @@
 
 using System.Net.Sockets;
-using System.Threading.Tasks;
 using NetworkStreamNS;
 using VehiculoClass;
 
@@ -37,7 +36,7 @@ public class VehiculoHandler
     /// <returns>Una tarea que representa la operación asincrónica de movimiento.</returns>
     public static async Task MoverVehiculoAsync(NetworkStream netwS)
     {
-        while (vehiculo.Pos >= 0 && vehiculo.Pos <= 100 && !vehiculo.Acabado)
+        while (vehiculo?.Pos >= 0 && vehiculo.Pos <= 100 && !vehiculo.Acabado)
         {
             if (!vehiculo.Parado)
             {
@@ -51,6 +50,6 @@ public class VehiculoHandler
             await Task.Delay(vehiculo.Velocidad);
         }
         
-        await netwS.EscribirDatosVehiculoNSAsync(vehiculo);
+        await netwS.EscribirDatosVehiculoNSAsync(vehiculo!);
     }
 }

@@ -29,7 +29,7 @@ public static class Puente
 
         while (true)
         {
-            Vehiculo siguiente;
+            Vehiculo? siguiente;
 
             lock (lockCola)
             {
