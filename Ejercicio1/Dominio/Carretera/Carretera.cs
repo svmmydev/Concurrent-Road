@@ -68,11 +68,11 @@ public class Carretera
     {
         Carretera tmpCarretera; 
         
-        XmlSerializer serializer = new XmlSerializer(typeof(Carretera));
+        XmlSerializer serializer = new XmlSerializer(typeof(Carretera))!;
 
         MemoryStream MS = new MemoryStream(bytesCarrera);
 
-        tmpCarretera = (Carretera) serializer.Deserialize(MS);
+        tmpCarretera = (Carretera) serializer.Deserialize(MS)!;
 
         return tmpCarretera;
     }    
