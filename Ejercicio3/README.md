@@ -49,26 +49,33 @@ Para esta tarea, se buscan los siguientes objetivos:
 
 > La respuesta es bastante interesante. Voy a desglosarlo un poco para que se pueda entender mejor:
 > 
-> **Controlar el paso del puente en el servidor** - (Lo que se está haciendo en este proyecto)
+> ### **Controlar el paso del puente en el servidor** - (Lo que se está haciendo en este proyecto)
 >
 > - **Ventajas**
+>   
 >   - En el servidor, se conoce el estado global de todos los vehículos y puede controlar quién entra y cuando.
 >   - Puedes temer decemas o cientos de clientes y el servidor, seguirá coordinando correctamente siempre que se use concurrencia
 > segura (`lock`, `SemaphoreSlim`).
 >   - El servidor puede actualizar en tiempo real el estado de la carretera para todos, y eso incluye mostrar qué vehículo está
 > en el puente.
 >   - Si un cliente se cae en el puente, el servidor puede detectarlo y liberar el recurso.
+>     
 > <br>
+>
 > - **Inconvenientes**
 >   - Aumenta la responsabilidad y consumo de CPU, sobre todo si se gestionan muchos clientes simultáneos.
 >   - Se debe gestionar de forma correcta el uso de la concurrencia.
 >
-> **Controlar el paso del puente en el cliente**
+> <br>
+>
+> ### **Controlar el paso del puente en el cliente**
 >
 > - **Ventajas**
 >   - El servidor solo sería pasivo, almacenaría el estado y los clientes se gestionarían.
 >   - No haría falta implementar colas ni semáforos en el servidor.
+>
 > <br>
+>
 > - **Inconvenientes**
 >   - Sin una vista global, dos o más clientes podrían decidir entrar al mismo tiempo.
 >   - Si los clientes tienen percepciones diferentes del estado del puente (lag o errores), puede haber colisiones lógicas.
@@ -106,9 +113,12 @@ Para esta tarea, se buscan los siguientes objetivos:
 
 ## APLICACIÓN FINAL
 
+<br>
+
 <p>
 
 ![Imagen de la prueba](../Assets/Images/10-mostrar-carretera-en-cliente.png)
+
 <em>Cliente</em>
 
 </p>
@@ -118,6 +128,7 @@ Para esta tarea, se buscan los siguientes objetivos:
 <p>
 
 ![Imagen de la prueba](../Assets/Images/11-mostrar-carretera-en-cliente.png)
+
 <em>Servidor</em>
 
 </p>
@@ -139,6 +150,7 @@ Para esta tarea, se buscan los siguientes objetivos:
 <p>
 
 ![Imagen de la prueba](../Assets/Images/12-mostrar-carretera-en-cliente-error.png)
+
 <em>Cliente</em>
 
 </p>
@@ -148,6 +160,7 @@ Para esta tarea, se buscan los siguientes objetivos:
 <p>
 
 ![Imagen de la prueba](../Assets/Images/13-mostrar-carretera-en-cliente-error.png)
+
 <em>Servidor</em>
 
 </p>
