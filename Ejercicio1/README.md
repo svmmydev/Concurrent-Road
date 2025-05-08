@@ -137,13 +137,12 @@ Para esta tarea, se buscan los siguientes objetivos:
 ### Etapa 7
 #### *Almacenaje de información clientes*
 
-> **Respuesta según el código**:
-> 
-> El primer paciente que entra en consulta es el Paciente 1. Si partimos de la base que genera el enunciado, cada llegada de paciente es separada por un lapso de tiempo de 2 segundos. En mi caso, siempre entrará primero el Paciente 1. Si, en lugar de mi código actual, hubiese creado una lista de 4 hilos y hubiese decidido que la ejecución de los mismos se hiciese de forma random, sacando aleatoriamente hilos de la lista, el orden de entrada podría ser diferente en cada ejecución.
-> 
-> Pero si leemos detenidamente el enunciado, dice: << Llega un paciente cada 2 segundos >>. En mi opinión, en esa sentencia, se confirma que la creación es en con ese intervalo, por lo tanto, siempre se ejecutará el mismo hilo en primer lugar.
-> 
-> En el segundo caso que he expuesto estaríamos dando por hecho que ya existen esos 4 pacientes (la lista de hilos pre-creada), y creo que no es el objetivo de esta tarea. Para que en este caso fuese totalmente válido en relación al enunciado, debería decir algo como: << En una sala de espera, donde hay 4 pacientes esperando, se les llama para entrar en consulta cada 2 segundos >>.
+> Sin mucho lío, se crea una clase `ClienteManager.cs` del lado del Servidor, para así poder almacenar la información de los clientes que se van conectando. En dicha clase se implementa una lista `ConcurrentDictionary<int, Cliente>`, en la que se almacenarán todos los clientes vinculados a una referencia. Esa
+> referencia es su propio ID, la cual permitirá acceder a su contenido `Cliente` de una forma muy rápida. Y por supuesto, sin que pase por alto, para almecenar clientes se necesitará crear ese modelo.
+>
+> Dicho modelo `Cliente.cs` constará de otra clase encapsulada, la cual tendrá como atributos un ID para identificarlos y su propio `NetworkStream`. De esta forma, siempre que se quiera enviar o recibir información a cada cliente, se puede acceder al flujo de cada uno.
+>
+> Los métodos de `AñadirCliente()` y `EliminarCliente()` de la clase ClienteManager, servirán para añadir siempre que se cree una nueva conexión, y para eliminarlos si su servicio se ha completado o si se ha desconectado repentinamente.
 
 <br>
 
