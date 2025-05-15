@@ -90,7 +90,7 @@ Para esta tarea, se buscan los siguientes objetivos:
 `¿Cómo gestionarías las colas de espera en el Servidor?¿Qué estructura de datos usarías para priorizar vehículos según su dirección?`
 
 > Después de realizar la primera práctica, creo que hay un elemento que se lleva la palma: `PriorityQueue()`. Tal y como su
-> nombre indica, esta clase nos permite almacenar elementos en una lista por prioridad. Se gestiona a través de sus parámetros:
+> nombre indica, esta clase nos permite almacenar elementos en una cola por prioridad. Se gestiona a través de sus parámetros:
 > `TElement` y `TPriority`. En el caso de los vehículos, se puede almacenar por `Vehiculo` & `int`. Una vez dentro de la lógica
 > del puente, se almacena en una variable si viene del Sur o del Norte:
 >
